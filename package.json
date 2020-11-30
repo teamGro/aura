@@ -2,10 +2,11 @@
   "name": "aura",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gulp": "./node_modules/.bin/gulp dev"
+    "gulp": "./node_modules/.bin/gulp dev",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
