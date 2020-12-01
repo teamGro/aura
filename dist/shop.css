@@ -98,6 +98,14 @@ ul {
   text-transform: uppercase;
 }
 
+.shop__item_active {
+  color: blue;
+}
+
+.shop__item:hover {
+  color: blue;
+}
+
 .shop_filters {
   margin-top: 40px;
 }

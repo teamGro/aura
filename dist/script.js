@@ -472,6 +472,7 @@ let brandDescData = [
   },
 ];
 
+let activeElem;
 createSlider(sliderData, $('.shop__list'));
 
 createFilters(filtersData, $('.filters'));
@@ -480,6 +481,7 @@ createListWithBrands(brandsData, 'shop-soft', $('.brands'));
 let brandsList = $('.brands');
 brandsList.attr('data-category', 'shop-soft');
 let activeCatergory = 'shop-soft';
+
 
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
@@ -491,6 +493,10 @@ shopList.on('click', (e) => {
   if (target.prop('tagName') != 'LI') {
     target = target.closest('li');
   }
+
+  target.addClass('shop__item_active');
+  activeElem.removeClass('shop__item_active');
+  activeElem = target;
 
   let targetID = target.attr('id');
   if (brandsList.attr('data-category') == targetID) return;
@@ -641,9 +647,13 @@ function createSlider(data, parent) {
     parent.append(createMarkup(item));
   });
 
+  activeElem = $('.shop__item').first();
+  activeElem.addClass('shop__item_active');
+
   new Glide('.glide', {
     type: 'carousel',
     perView: 5,
+    startAt: 0
   }).mount();
 
   let imgHeight = $('.shop__img').height();
