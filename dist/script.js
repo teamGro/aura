@@ -509,7 +509,11 @@ shopList.on('click', (e) => {
     }, 300);
   } else {
     filters.removeClass('filters_active');
-    filters.addClass('filters_inactive')
+    filters.addClass('filters_inactive');
+
+    if ($('.shop_brands').hasClass('shop_brands-open')) {
+      $('.shop_brands').removeClass('shop_brands-open');
+    }
 
     //brandsList.removeClass('brands_active');
     brandsList.addClass('brands_inactive');
@@ -519,6 +523,7 @@ shopList.on('click', (e) => {
       createListWithBrands(brandsData, targetID, $('.brands'));
       brandsList.attr('data-category', targetID);
       activeCatergory = targetID;
+      $('.brand-desc').empty();
     }, 300);
   }
 });
@@ -540,8 +545,12 @@ brandsList.on('click', function (e) {
 
   $('.brand-desc__btn').on('click', () => {
     console.log(activeCatergory);
-    createListWithBrands(brandsData, activeCatergory, $('.brands'));
-    $('.brand-desc').empty();
+    $('.shop_brands').removeClass('shop_brands-open');
+    //createListWithBrands(brandsData, activeCatergory, $('.brands'));
+    setTimeout(() => {
+      $('.brand-desc').empty();
+
+    }, 300);
   });
 });
 
@@ -584,7 +593,8 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
   for (let i = 0; i < data.length; i++) {
     let item = data[i];
     if (item.title == currentID) {
-      nodeForRemoving.empty();
+      // nodeForRemoving.empty();
+      nodeForRemoving.parent().addClass('shop_brands-open');
       parent.append(createLayout(item));
       parent.attr('data-category', currentID);
     }

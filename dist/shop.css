@@ -63,7 +63,6 @@ ul {
 }
 
 .shop__img:hover {
-  /* animation: kenburns-top 0.9s linear forwards; */
   transform: scale(1.2);
 }
 
@@ -110,9 +109,7 @@ ul {
 }
 
 .filters_active {
-  animation   : fade-in 0.3s linear forwards;
-  /* height   : auto; */
-  /* transform: translate(0); */
+  animation: fade-in 0.3s linear forwards;
 }
 
 .filters_inactive {
@@ -187,10 +184,18 @@ ul {
 }
 
 .shop_brands {
+  position  : relative;
   margin-top: 25px;
+  transition: transform .3s linear;
+}
+
+.shop_brands-open {
+  transform : translateX(-100vw);
+  min-height: 480px;
 }
 
 .brands {
+  position : relative;
   display  : flex;
   flex-wrap: wrap;
   opacity  : 0;
@@ -228,11 +233,14 @@ ul {
 }
 
 .brand-desc {
-  position: relative;
+  position : absolute;
+  top      : 0;
+  transform: translateX(100vw);
 
   display      : flex;
   padding-top  : 25px;
   margin-bottom: 75px;
+  transition   : transform .3s linear;
 }
 
 .brand-desc__btn {
