@@ -505,10 +505,15 @@ shopList.on('click', (e) => {
 
     if (brandsList.attr('data-category') == targetID) return;
 
-    brandsList.empty();
-    createListWithBrands(brandsData, targetID, $('.brands'));
-    brandsList.attr('data-category', targetID);
-    activeCatergory = targetID;
+    //brandsList.removeClass('brands_active');
+    brandsList.addClass('brands_inactive');
+
+    setTimeout(() => {
+      brandsList.empty();
+      createListWithBrands(brandsData, targetID, $('.brands'));
+      brandsList.attr('data-category', targetID);
+      activeCatergory = targetID;
+    }, 300);
   }
 });
 
@@ -598,6 +603,10 @@ function createListWithBrands(data, currentID, parent) {
       parent.append(elem);
     }
   }
+  setTimeout(() => {
+    parent.removeClass('brands_inactive');
+    parent.addClass('brands_active');
+  }, 100);
 }
 
 function createSlider(data, parent) {
@@ -605,8 +614,10 @@ function createSlider(data, parent) {
     return `
           <li class="${elem.classes}" id="${elem.id}">
               <div class="shop__item-wrap">
+                <div class="shop__img-wrap">
                   <img src="${elem.img}"  alt="" class="shop__img">
-                  <h3 class="shop__title">${elem.title}</h3>
+                </div>
+                <h3 class="shop__title">${elem.title}</h3>
               </div>
           </li>`;
   }
