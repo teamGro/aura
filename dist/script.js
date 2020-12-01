@@ -79,7 +79,7 @@ let filtersData = [
 let brandsData = [
   {
     category: 'shop-soft',
-    img: './assets/img/shop/brands/ormatek.png',
+    img: './assets/img/shop/brands/ormatek.jpg',
     alt: 'Орматек',
     id: 'ormatek',
   },
@@ -223,7 +223,7 @@ let brandsData = [
   },
   {
     category: 'shop-chair-tables',
-    img: './assets/img/shop/brands/ormatek.png',
+    img: './assets/img/shop/brands/ormatek.jpg',
     alt: 'Орматек',
     id: 'ormatek',
   },
@@ -341,7 +341,7 @@ let brandDescData = [
   {
     title: 'ormatek',
     mainDesc: '<b>Мебельная компания №1 в России!</b><br> Собственные фабрика, складские помещения и транспорт, партнерские склады, быстрая доставка',
-    logo: './assets/img/shop/brands/ormatek.png',
+    logo: './assets/img/shop/brands/ormatek.jpg',
     img: './assets/img/shop/brands/sofa.jpg',
     alt: 'Ориатек',
     desc: 'Орматек — сеть мебельных магазинов по всей России, специализарующаяся на продаже и изготовлении диванов, корпусной мебели и др.',
@@ -483,6 +483,7 @@ let activeCatergory = 'shop-soft';
 
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
+
 const shopList = $('.shop__list');
 shopList.on('click', (e) => {
   let target = $(e.target);
@@ -492,12 +493,12 @@ shopList.on('click', (e) => {
   }
 
   if (target.attr('id') == 'shop-interior') {
-    filters.fadeIn('slow', function () {
+    filters.fadeIn('', function () {
       $(this).addClass('filters_active');
       $(this).css('display', 'flex');
     });
   } else {
-    filters.fadeOut('slow', function () {
+    filters.fadeOut('', function () {
       $(this).removeClass('filters_active');
     });
     let targetID = target.attr('id');
@@ -505,7 +506,7 @@ shopList.on('click', (e) => {
     if (brandsList.attr('data-category') == targetID) return;
 
     brandsList.empty();
-    createListWithBrands(brandsData, targetID, $('.brands'), targetID);
+    createListWithBrands(brandsData, targetID, $('.brands'));
     brandsList.attr('data-category', targetID);
     activeCatergory = targetID;
   }
@@ -593,7 +594,8 @@ function createListWithBrands(data, currentID, parent) {
   for (let i = 0; i < data.length; i++) {
     let item = data[i];
     if (item.category == currentID) {
-      parent.append(createLayout(item));
+      let elem = createLayout(item);
+      parent.append(elem);
     }
   }
 }
