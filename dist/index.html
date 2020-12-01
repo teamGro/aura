@@ -1,137 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="format-detection" content="telephone=yes" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="css/bundle.css" />
-    <link rel="stylesheet" href="shop.css" />
-  </head>
 
-  <body>
-    <header class="header">
-      <div class="holder">
-        <div class="header-item">
-          <nav class="menu">
-            <a href="#s1" class="menu__item go_to" href=""><span class="menu__item-text">О центре</span></a>
-            <a href="#s2" class="menu__item go_to" href=""><span class="menu__item-text">Акции</span></a>
-            <a href="#s3" class="menu__item go_to" href=""><span class="menu__item-text">Магазины</span></a>
-            <a href="#s4" class="menu__item go_to" href=""><span class="menu__item-text">Инстаграм</span></a>
-          </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="format-detection" content="telephone=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="css/bundle.css" />
+  <link rel="stylesheet" href="shop.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="holder">
+      <div class="header-item">
+        <nav class="menu">
+          <a href="#s1" class="menu__item go_to" href=""><span class="menu__item-text">О центре</span></a>
+          <a href="#s2" class="menu__item go_to" href=""><span class="menu__item-text">Акции</span></a>
+          <a href="#s3" class="menu__item go_to" href=""><span class="menu__item-text">Магазины</span></a>
+          <a href="#s4" class="menu__item go_to" href=""><span class="menu__item-text">Инстаграм</span></a>
+        </nav>
+      </div>
+      <div class="header-logo-cover">
+        <div class="go_to logo-small bg_con"></div>
+        <span class="logo-title">МЕБЕЛЬ. МНОГО. ПРИХОДИ.</span>
+      </div>
+      <div class="header-item header-item--soc">
+        <div class="soc-cover">
+          <a href="tel:93799992" class="soc-item">
+            <div class="soc-item__img soc-item__img--phone soc-item__img-p1"></div>
+          </a>
+          <a href="#form" class="go_to soc-item">
+            <div class="soc-item__img soc-item__img--phone soc-item__img-p2"></div>
+          </a>
+          <a href="" class="soc-item">
+            <div class="soc-item__img soc-item__img--whats"></div>
+          </a>
+          <a href="" class="soc-item">
+            <div class="soc-item__img soc-item__img--viber"></div>
+          </a>
         </div>
-        <div class="header-logo-cover">
-          <div class="go_to logo-small bg_con"></div>
-          <span class="logo-title">МЕБЕЛЬ. МНОГО. ПРИХОДИ.</span>
+        <div class="btn btn--header btn-map">Построить маршрут</div>
+      </div>
+    </div>
+  </header>
+  <div class="head_down"></div>
+  <section id="videoApp" class="section section--video bg_cov" :class="{'video--isPlayed': !isMuted}"
+    @mouseover="cleanScreen = false" @mouseleave="cleanScreen = true">
+    <video id="video" class="video-box" :muted="isMuted" :loop="isLoop" @timeupdate="getProgress($event)" ref="player">
+      <source src="./assets/video/eminem.mp4" type="video/mp4" />
+    </video>
+    <div class="abs100 video-background"></div>
+    <div class="abs100 video-content">
+      <div class="logo bg_con"></div>
+      <h1 class="title title--main">МЕБЕЛЬ. МНОГО. ПРИХОДИ.</h1>
+      <span class="title-desc">Мебельный центр AURA</span>
+      <div class="btn btn--white" @click="test">Уже еду!</div>
+      <div class="btn-play bg_con" @click="mute"></div>
+      <div class="btn-cancel bg_con" :class="{'btn-cancel--active': !isMuted && !cleanScreen}" @click="mute"></div>
+      <!-- <div class="btn-controls bg_con" :class="{'btn-controls--active': !isMuted && !cleanScreen}" @click="toggleControls"></div> -->
+      <div class="custom-controls" :class="{'custom-controls--active': !isMuted && isControls && !cleanScreen}">
+        <div v-if="!isPaused" class="pause-control bg_con" @click="pauseToggle"></div>
+        <div v-else class="play-control bg_con" @click="pauseToggle"></div>
+        <div class="custom-controls__progress-cover" @click="setTime($event)">
+          <div class="custom-controls__progress" :style="{width: progress + '%'}"></div>
         </div>
-        <div class="header-item header-item--soc">
-          <div class="soc-cover">
-            <a href="tel:93799992" class="soc-item">
-              <div class="soc-item__img soc-item__img--phone soc-item__img-p1"></div>
-            </a>
-            <a href="#form" class="go_to soc-item">
-              <div class="soc-item__img soc-item__img--phone soc-item__img-p2"></div>
-            </a>
-            <a href="" class="soc-item">
-              <div class="soc-item__img soc-item__img--whats"></div>
-            </a>
-            <a href="" class="soc-item">
-              <div class="soc-item__img soc-item__img--viber"></div>
-            </a>
+        <div class="custom-controls__volume-cover" @click="setVolume($event)">
+          <div class="custom-controls__volume" :style="{width: volume + '%'}"></div>
+        </div>
+        <div class="btn-fullscreen" @click="toggleFullScreen"></div>
+      </div>
+      <div class="video-footer">
+        <div class="holder">
+          <div class="video-info">
+            <div class="video-info__img i1 bg_con"></div>
+            <div class="video-info__text">ПН-ВС: 10:00-20:00, без перерывов</div>
           </div>
-          <div class="btn btn--header btn-map">Построить маршрут</div>
+          <div class="video-info">
+            <div class="video-info__img i2 bg_con"></div>
+            <div class="video-info__text">г. Волгоград, проспект Жукова, 94</div>
+          </div>
         </div>
       </div>
-    </header>
-    <div class="head_down"></div>
-    <section id="videoApp" class="section section--video bg_cov" :class="{'video--isPlayed': !isMuted}" @mouseover="cleanScreen = false" @mouseleave="cleanScreen = true">
-      <video id="video" class="video-box" :muted="isMuted" :loop="isLoop" @timeupdate="getProgress($event)" ref="player">
-        <source src="./assets/video/eminem.mp4" type="video/mp4" />
-      </video>
-      <div class="abs100 video-background"></div>
-      <div class="abs100 video-content">
-        <div class="logo bg_con"></div>
-        <h1 class="title title--main">МЕБЕЛЬ. МНОГО. ПРИХОДИ.</h1>
-        <span class="title-desc">Мебельный центр AURA</span>
-        <div class="btn btn--white" @click="test">Уже еду!</div>
-        <div class="btn-play bg_con" @click="mute"></div>
-        <div class="btn-cancel bg_con" :class="{'btn-cancel--active': !isMuted && !cleanScreen}" @click="mute"></div>
-        <!-- <div class="btn-controls bg_con" :class="{'btn-controls--active': !isMuted && !cleanScreen}" @click="toggleControls"></div> -->
-        <div class="custom-controls" :class="{'custom-controls--active': !isMuted && isControls && !cleanScreen}">
-          <div v-if="!isPaused" class="pause-control bg_con" @click="pauseToggle"></div>
-          <div v-else class="play-control bg_con" @click="pauseToggle"></div>
-          <div class="custom-controls__progress-cover" @click="setTime($event)">
-            <div class="custom-controls__progress" :style="{width: progress + '%'}"></div>
-          </div>
-          <div class="custom-controls__volume-cover" @click="setVolume($event)">
-            <div class="custom-controls__volume" :style="{width: volume + '%'}"></div>
-          </div>
-          <div class="btn-fullscreen" @click="toggleFullScreen"></div>
+    </div>
+  </section>
+  <section class="section section--plus">
+    <div class="holder">
+      <h2 class="title title--wide">Торговый центр мебели и интерьера «AURA»</h2>
+      <div class="plus-cover">
+        <div class="plus-item">
+          <div class="plus-item__img-cover"><img src="./assets/img/p1.svg" alt="./assets/img/p1.svg"
+              class="plus-item__img" /></div>
+          <h3 class="plus-item__title">27 000 м2</h3>
+          <p class="plus-item__text">Самый крупный специализированный интерьерный центр в Волгоградской области</p>
         </div>
-        <div class="video-footer">
-          <div class="holder">
-            <div class="video-info">
-              <div class="video-info__img i1 bg_con"></div>
-              <div class="video-info__text">ПН-ВС: 10:00-20:00, без перерывов</div>
-            </div>
-            <div class="video-info">
-              <div class="video-info__img i2 bg_con"></div>
-              <div class="video-info__text">г. Волгоград, проспект Жукова, 94</div>
-            </div>
-          </div>
+        <div class="plus-item">
+          <div class="plus-item__img-cover"><img src="./assets/img/p2.svg" alt="./assets/img/p2.svg"
+              class="plus-item__img" /></div>
+          <h3 class="plus-item__title">Локация</h3>
+          <p class="plus-item__text">Удобное месторасположение в центре Волгограда</p>
+        </div>
+        <div class="plus-item">
+          <div class="plus-item__img-cover"><img src="./assets/img/p3.svg" alt="./assets/img/p3.svg"
+              class="plus-item__img" /></div>
+          <h3 class="plus-item__title">Комфорт</h3>
+          <p class="plus-item__text">Современный торговый формат, обеспечивающий комфортный выбор мебели и комплексных
+            интерьерных решений от ведущих компаний</p>
+        </div>
+        <div class="plus-item">
+          <div class="plus-item__img-cover"><img src="./assets/img/p4.svg" alt="./assets/img/p4.svg"
+              class="plus-item__img" /></div>
+          <h3 class="plus-item__title">Ассортимент</h3>
+          <p class="plus-item__text">Сбалансированный ассортимент мебели и товаров для дома от "эконом-класса" до класса
+            "премиум"</p>
+        </div>
+        <div class="plus-item">
+          <div class="plus-item__img-cover"><img src="./assets/img/p5.svg" alt="./assets/img/p5.svg"
+              class="plus-item__img" /></div>
+          <h3 class="plus-item__title">Удобство</h3>
+          <p class="plus-item__text">Наземная и подземная парковки на 312 машиномест</p>
         </div>
       </div>
-    </section>
-    <section class="section section--plus">
-      <div class="holder">
-        <h2 class="title title--wide">Торговый центр мебели и интерьера «AURA»</h2>
-        <div class="plus-cover">
-          <div class="plus-item">
-            <div class="plus-item__img-cover"><img src="./assets/img/p1.svg" alt="./assets/img/p1.svg" class="plus-item__img" /></div>
-            <h3 class="plus-item__title">27 000 м2</h3>
-            <p class="plus-item__text">Самый крупный специализированный интерьерный центр в Волгоградской области</p>
+      <div class="gallery-cover">
+        <div class="gallery-row">
+          <div class="gallery-item">
+            <div class="gallery-slider abs100">
+              <div class="gallery-slider__cover">
+                <div class="gallery-slider__item bg_cov" style="background-image: url('./assets/img/g1.jpg')"></div>
+                <div class="gallery-slider__item bg_cov" style="background-image: url('./assets/img/g2.jpg')"></div>
+                <div class="gallery-slider__item bg_cov" style="background-image: url('./assets/img/g3.jpg')"></div>
+              </div>
+              <div class="dots"></div>
+            </div>
           </div>
-          <div class="plus-item">
-            <div class="plus-item__img-cover"><img src="./assets/img/p2.svg" alt="./assets/img/p2.svg" class="plus-item__img" /></div>
-            <h3 class="plus-item__title">Локация</h3>
-            <p class="plus-item__text">Удобное месторасположение в центре Волгограда</p>
-          </div>
-          <div class="plus-item">
-            <div class="plus-item__img-cover"><img src="./assets/img/p3.svg" alt="./assets/img/p3.svg" class="plus-item__img" /></div>
-            <h3 class="plus-item__title">Комфорт</h3>
-            <p class="plus-item__text">Современный торговый формат, обеспечивающий комфортный выбор мебели и комплексных интерьерных решений от ведущих компаний</p>
-          </div>
-          <div class="plus-item">
-            <div class="plus-item__img-cover"><img src="./assets/img/p4.svg" alt="./assets/img/p4.svg" class="plus-item__img" /></div>
-            <h3 class="plus-item__title">Ассортимент</h3>
-            <p class="plus-item__text">Сбалансированный ассортимент мебели и товаров для дома от "эконом-класса" до класса "премиум"</p>
-          </div>
-          <div class="plus-item">
-            <div class="plus-item__img-cover"><img src="./assets/img/p5.svg" alt="./assets/img/p5.svg" class="plus-item__img" /></div>
-            <h3 class="plus-item__title">Удобство</h3>
-            <p class="plus-item__text">Наземная и подземная парковки на 312 машиномест</p>
-          </div>
-        </div>
-        <div class="gallery-cover">
-          <div class="gallery-row">
-            <div class="gallery-item">
-              <div class="gallery-slider abs100">
-                <div class="gallery-slider__cover">
-                  <div class="gallery-slider__item bg_cov" style="background-image: url('./assets/img/g1.jpg')"></div>
-                  <div class="gallery-slider__item bg_cov" style="background-image: url('./assets/img/g2.jpg')"></div>
-                  <div class="gallery-slider__item bg_cov" style="background-image: url('./assets/img/g3.jpg')"></div>
+          <div class="gallery-item">
+            <div class="gallery-part">
+              <div class="gallery-part__img bg_cov" style="background-image: url('./assets/img/meb2.jpg')"></div>
+              <div class="gallery-part__content abs100">
+                <h4 class="gallery-part__title">О МЕБЕЛЬНОМ ЦЕНТРЕ “AURA”</h4>
+                <div class="btn btn--white btn-gallery">Подробнее</div>
+                <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                <div class="hidden_date" data-date="01-31 октября"></div>
+                <div class="hidden_body">
+                  <li class="modal-item__list-item">
+                    <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                    <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                  </li>
+                  <li class="modal-item__list-item">
+                    <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                    <p class="modal-item__text">
+                      - Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia perferendis rem saepe laborum,
+                      nemo ratione ex molestias nostrum praesentium culpa? Earum
+                      itaque sit amet adipisci a ipsa quibusdam deleniti, unde quia cupiditate est aspernatur corrupti.
+                      Consequatur quo eligendi fugiat. Corrupti labore a minus
+                      tempore, rem voluptates illum nam reprehenderit rerum..
+                    </p>
+                  </li>
                 </div>
-                <div class="dots"></div>
               </div>
             </div>
-            <div class="gallery-item">
-              <div class="gallery-part">
-                <div class="gallery-part__img bg_cov" style="background-image: url('./assets/img/meb2.jpg')"></div>
-                <div class="gallery-part__content abs100">
-                  <h4 class="gallery-part__title">О МЕБЕЛЬНОМ ЦЕНТРЕ “AURA”</h4>
-                  <div class="btn btn--white btn-gallery">Подробнее</div>
+            <div class="gallery-part">
+              <div class="gallery-part__img bg_cov" style="background-image: url('./assets/img/meb1.jpg')"></div>
+              <div class="gallery-part__content abs100">
+                <h4 class="gallery-part__title">О МЕБЕЛЬНОМ ЦЕНТРЕ “AURA”</h4>
+                <div class="btn btn--white btn-gallery">Подробнее</div>
+                <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                <div class="hidden_date" data-date="16-31 октября"></div>
+                <div class="hidden_body">
+                  <li class="modal-item__list-item">
+                    <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                    <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                  </li>
+                  <li class="modal-item__list-item">
+                    <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                    <p class="modal-item__text">- Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
+                      dolorum optio officiis asperiores earum sed.</p>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="s1" class="section section--about">
+    <div class="holder">
+      <div class="title-cover">
+        <h2 class="title title--type">О центре</h2>
+      </div>
+      <div class="about-row">
+        <div class="about-block">
+          <div class="about-circle c1">
+            <div class="second-circle">
+              <div class="img-circle bg_cov" style="background-image: url('./assets/img/c1.png')"></div>
+            </div>
+          </div>
+          <div class="about-circle c2">
+            <div class="second-circle">
+              <div class="img-circle bg_cov" style="background-image: url('./assets/img/c2.png')"></div>
+            </div>
+          </div>
+          <div class="about-circle c3">
+            <div class="second-circle">
+              <div class="img-circle bg_cov" style="background-image: url('./assets/img/c2.png')"></div>
+            </div>
+          </div>
+          <h3 class="about-title">Тестовый заголовок</h3>
+          <div class="about-text-cover about-text-cover--left">
+            <div class="about-text">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus dolore quo corporis dignissimos culpa in.
+              Placeat id odit ducimus esse animi consectetur distinctio
+              explicabo, quas harum praesentium ab assumenda cum at ipsam necessitatibus cupiditate ipsum optio
+              laudantium. Nihil rem corporis officiis commodi, deserunt quam,
+              ducimus, nostrum odit earum nesciunt magni a laboriosam sed voluptatem eius assumenda quis incidunt
+              obcaecati! Similique voluptatem doloribus assumenda ab incidunt
+              quaerat, sed sit laudantium itaque odio quis natus repellendus officiis nobis asperiores architecto
+              deleniti. Vitae consequuntur dignissimos optio voluptatum, rerum
+              illum officia repellendus molestias magnam perferendis doloremque ut porro eligendi omnis nostrum placeat
+              architecto sed accusantium voluptatibus nisi veniam
+              quibusdam. Expedita similique culpa magni dolor, architecto hic, fugiat quos totam aut tenetur pariatur
+              rem quidem? Est quas nobis facere atque tempora omnis
+              laudantium officiis amet fugiat, cumque sit libero inventore. Eaque ut saepe odio ab cum vero?
+            </div>
+          </div>
+          <div class="about-text-cover about-text-cover--right">
+            <div class="about-text">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus dolore quo corporis dignissimos culpa in.
+              Placeat id odit ducimus esse animi consectetur distinctio
+              explicabo, quas harum praesentium ab assumenda cum at ipsam necessitatibus cupiditate ipsum optio
+              laudantium.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="s2" class="section section--sale">
+    <div class="holder">
+      <div class="title-cover">
+        <h2 class="title title--type">Акции</h2>
+      </div>
+      <div class="sale-cover">
+        <div class="sale-item sale-item--active">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_sofa.svg"
+              alt="./assets/img/sale/icon_sofa.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Мягкая мебель</p>
+        </div>
+        <div class="sale-item">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_bed.svg"
+              alt="./assets/img/sale/icon_bed.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Товары для сна Кровати и матрасы</p>
+        </div>
+        <div class="sale-item">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_cupboard.svg"
+              alt="./assets/img/sale/icon_cupboard.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Корпусная мебель</p>
+        </div>
+        <div class="sale-item">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_kitchen.svg"
+              alt="./assets/img/sale/icon_kitchen.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Кухни</p>
+        </div>
+        <div class="sale-item">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_interior.svg"
+              alt="./assets/img/sale/icon_interior.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Кухни</p>
+        </div>
+        <div class="sale-item">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_home.svg"
+              alt="./assets/img/sale/icon_home.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Товары для дома</p>
+        </div>
+        <div class="sale-item">
+          <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_table.svg"
+              alt="./assets/img/sale/icon_table.svg" class="sale-item__img" /></div>
+          <p class="sale-item__text">Ванны и сантехника</p>
+        </div>
+      </div>
+      <div class="sale-sliders">
+        <div class="sale-sliders__bg b1"></div>
+        <div class="sale-sliders__bg b2"></div>
+        <div class="sale-sliders__btn"></div>
+        <div class="sale-sliders__btn2"></div>
+        <div class="slider-container">
+          <div class="slider-box slider-box--visible slider-box--active">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
                   <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                  <div class="hidden_date" data-date="01-31 октября"></div>
                   <div class="hidden_body">
                     <li class="modal-item__list-item">
                       <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
@@ -140,21 +302,30 @@
                     <li class="modal-item__list-item">
                       <h4 class="modal-item__text-title">Подробности действия акции:</h4>
                       <p class="modal-item__text">
-                        - Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia perferendis rem saepe laborum, nemo ratione ex molestias nostrum praesentium culpa? Earum
-                        itaque sit amet adipisci a ipsa quibusdam deleniti, unde quia cupiditate est aspernatur corrupti. Consequatur quo eligendi fugiat. Corrupti labore a minus
-                        tempore, rem voluptates illum nam reprehenderit rerum..
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
                       </p>
                     </li>
                   </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
                 </div>
               </div>
-              <div class="gallery-part">
-                <div class="gallery-part__img bg_cov" style="background-image: url('./assets/img/meb1.jpg')"></div>
-                <div class="gallery-part__content abs100">
-                  <h4 class="gallery-part__title">О МЕБЕЛЬНОМ ЦЕНТРЕ “AURA”</h4>
-                  <div class="btn btn--white btn-gallery">Подробнее</div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
                   <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                  <div class="hidden_date" data-date="16-31 октября"></div>
                   <div class="hidden_body">
                     <li class="modal-item__list-item">
                       <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
@@ -162,1326 +333,1291 @@
                     </li>
                     <li class="modal-item__list-item">
                       <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                      <p class="modal-item__text">- Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis dolorum optio officiis asperiores earum sed.</p>
+                      <p class="modal-item__text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi,
+                        officiis.</p>
                     </li>
                   </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">16-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate
+                        rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
+                        aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара
+                        не включает стоимость услуг. <br />- На акционные товары
+                        принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в
+                        компании, но при этом суммарно скидка может составлять не
+                        более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара
+                        в рассрочку скидка по рассрочке суммируется с текущей
+                        акционной скидкой на товар.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate
+                        rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
+                        aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate
+                        rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
+                        aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
+                  <div class="hidden_body">
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
+                      <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
+                    </li>
+                    <li class="modal-item__list-item">
+                      <h4 class="modal-item__text-title">Подробности действия акции:</h4>
+                      <p class="modal-item__text">
+                        - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate
+                        rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
+                        aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
+                      </p>
+                    </li>
+                  </div>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <section id="s1" class="section section--about">
-      <div class="holder">
-        <div class="title-cover">
-          <h2 class="title title--type">О центре</h2>
-        </div>
-        <div class="about-row">
-          <div class="about-block">
-            <div class="about-circle c1">
-              <div class="second-circle">
-                <div class="img-circle bg_cov" style="background-image: url('./assets/img/c1.png')"></div>
+          <div class="slider-box">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="about-circle c2">
-              <div class="second-circle">
-                <div class="img-circle bg_cov" style="background-image: url('./assets/img/c2.png')"></div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="about-circle c3">
-              <div class="second-circle">
-                <div class="img-circle bg_cov" style="background-image: url('./assets/img/c2.png')"></div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <h3 class="about-title">Тестовый заголовок</h3>
-            <div class="about-text-cover about-text-cover--left">
-              <div class="about-text">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus dolore quo corporis dignissimos culpa in. Placeat id odit ducimus esse animi consectetur distinctio
-                explicabo, quas harum praesentium ab assumenda cum at ipsam necessitatibus cupiditate ipsum optio laudantium. Nihil rem corporis officiis commodi, deserunt quam,
-                ducimus, nostrum odit earum nesciunt magni a laboriosam sed voluptatem eius assumenda quis incidunt obcaecati! Similique voluptatem doloribus assumenda ab incidunt
-                quaerat, sed sit laudantium itaque odio quis natus repellendus officiis nobis asperiores architecto deleniti. Vitae consequuntur dignissimos optio voluptatum, rerum
-                illum officia repellendus molestias magnam perferendis doloremque ut porro eligendi omnis nostrum placeat architecto sed accusantium voluptatibus nisi veniam
-                quibusdam. Expedita similique culpa magni dolor, architecto hic, fugiat quos totam aut tenetur pariatur rem quidem? Est quas nobis facere atque tempora omnis
-                laudantium officiis amet fugiat, cumque sit libero inventore. Eaque ut saepe odio ab cum vero?
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="about-text-cover about-text-cover--right">
-              <div class="about-text">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus dolore quo corporis dignissimos culpa in. Placeat id odit ducimus esse animi consectetur distinctio
-                explicabo, quas harum praesentium ab assumenda cum at ipsam necessitatibus cupiditate ipsum optio laudantium.
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <section id="s2" class="section section--sale">
-      <div class="holder">
-        <div class="title-cover">
-          <h2 class="title title--type">Акции</h2>
-        </div>
-        <div class="sale-cover">
-          <div class="sale-item sale-item--active">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_sofa.svg" alt="./assets/img/sale/icon_sofa.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Мягкая мебель</p>
-          </div>
-          <div class="sale-item">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_bed.svg" alt="./assets/img/sale/icon_bed.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Товары для сна Кровати и матрасы</p>
-          </div>
-          <div class="sale-item">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_cupboard.svg" alt="./assets/img/sale/icon_cupboard.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Корпусная мебель</p>
-          </div>
-          <div class="sale-item">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_kitchen.svg" alt="./assets/img/sale/icon_kitchen.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Кухни</p>
-          </div>
-          <div class="sale-item">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_interior.svg" alt="./assets/img/sale/icon_interior.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Кухни</p>
-          </div>
-          <div class="sale-item">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_home.svg" alt="./assets/img/sale/icon_home.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Товары для дома</p>
-          </div>
-          <div class="sale-item">
-            <div class="sale-item__img-cover"><img src="./assets/img/sale/icon_table.svg" alt="./assets/img/sale/icon_table.svg" class="sale-item__img" /></div>
-            <p class="sale-item__text">Ванны и сантехника</p>
-          </div>
-        </div>
-        <div class="sale-sliders">
-          <div class="sale-sliders__bg b1"></div>
-          <div class="sale-sliders__bg b2"></div>
-          <div class="sale-sliders__btn"></div>
-          <div class="sale-sliders__btn2"></div>
-          <div class="slider-container">
-            <div class="slider-box slider-box--visible slider-box--active">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+          <div class="slider-box">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, officiis.</p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">16-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
-                          aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Акционные товары продаются со скидками на ограниченный ассортимент. <br />- Стоимость товара не включает стоимость услуг. <br />- На акционные товары
-                          принимаются к оплате купоны и сертификаты, а также действуют другие скидки, предусмотренные в компании, но при этом суммарно скидка может составлять не
-                          более 20%. <br />- Акционные товары можно приобрести в кредит. При этом при приобретении товара в рассрочку скидка по рассрочке суммируется с текущей
-                          акционной скидкой на товар.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
-                          aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
-                          aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="hidden_img" data-img="./assets/img/photo.jpg"></div>
-                    <div class="hidden_body">
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Товар, участвующий в акции:</h4>
-                        <p class="modal-item__text">Ассортимент, участвующий в акции, ограничен</p>
-                      </li>
-                      <li class="modal-item__list-item">
-                        <h4 class="modal-item__text-title">Подробности действия акции:</h4>
-                        <p class="modal-item__text">
-                          - Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet asperiores magni enim, voluptate rerum deserunt? Tenetur, quo aspernatur iste magnam ipsa
-                          aperiam quos eos accusantium earum omnis consectetur necessitatibus dolore.
-                        </p>
-                      </li>
-                    </div>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="slider-box">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="slider-box">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+          </div>
+          <div class="slider-box">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="slider-box">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="slider-box">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+          </div>
+          <div class="slider-box">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="slider-box">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="slider-box">
-              <div class="slider-cover owl-carousel owl-theme mb30">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+          </div>
+          <div class="slider-box">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
-              <div class="slider-cover owl-carousel owl-theme">
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')"></div>
-                  </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
                   </div>
                 </div>
-                <div class="item-card">
-                  <div class="item-card__img">
-                    <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')"></div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
-                  <div class="item-card__body">
-                    <h4 class="item-card__title">Летние скидки</h4>
-                    <div class="item-card__footer">
-                      <div class="item-card__data">01-31 октября</div>
-                      <div class="btn btn-card">Подробнее</div>
-                    </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-box">
+            <div class="slider-cover owl-carousel owl-theme mb30">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slider-cover owl-carousel owl-theme">
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b1.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b2.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b3.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b4.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b5.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-card">
+                <div class="item-card__img">
+                  <div class="item-card__img-bg bg_cov abs100" style="background-image: url('./assets/img/b6.jpg')">
+                  </div>
+                </div>
+                <div class="item-card__body">
+                  <h4 class="item-card__title">Летние скидки</h4>
+                  <div class="item-card__footer">
+                    <div class="item-card__data">01-31 октября</div>
+                    <div class="btn btn-card">Подробнее</div>
                   </div>
                 </div>
               </div>
@@ -1489,296 +1625,312 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="s3" class="section section--shops">
-      <div class="holder">
-        <div class="title-cover">
-          <h2 class="title title--type">Магазины</h2>
-        </div>
+  <section id="s3" class="section section--shops">
+    <div class="holder">
+      <div class="title-cover">
+        <h2 class="title title--type">Магазины</h2>
+      </div>
 
-        <div class="glide shop shop_slider">
-          <div class="shop__wrapper glide__track" data-glide-el="track">
-            <ul class="shop__list glide__slides">
-              <!-- content generated throgh JS -->
-            </ul>
-          </div>
-          <div class="shop__btn-wrap glide__arrows" data-glide-el="controls">
-            <button class="shop-btn shop__btn glide__arrow glide__arrow--right" data-glide-dir=">">
-              <img src="./assets/img/shop/arrow-right.svg" alt="дальше" />
-            </button>
-          </div>
-        </div>
-
-        <div class="shop shop_filters">
-          <ul class="filters">
+      <div class="glide shop shop_slider">
+        <div class="shop__wrapper glide__track" data-glide-el="track">
+          <ul class="shop__list glide__slides">
             <!-- content generated throgh JS -->
           </ul>
         </div>
-
-        <div class="shop shop_brands">
-          <ul class="brands"></ul>
-
-          <article class="brand-desc"></article>
-        </div>
-
-        <h2 id="form" class="title title-form">ВСЕ ЕЩЕ ДУМАЕШЬ,<br />ГДЕ КУПИТЬ МЕБЕЛЬ?</h2>
-        <div class="form-cover">
-          <h3 class="title title-form-box">Приезжай в AURA!</h3>
-          <p class="form-subtitle">А если остались вопросы, заполните форму <br />и мы обязательно свяжемся с вами</p>
-          <form>
-            <!-- Hidden Required Fields -->
-            <input type="hidden" name="project_name" value="iphylosophy.ru" />
-            <input type="hidden" name="admin_email" value="dev@iphylosophy.ru" />
-            <input type="hidden" name="form_subject" value="Контактная информация клиента" />
-            <!-- END Hidden Required Fields -->
-            <div><input class="input" type="text" name="Имя" placeholder="Имя" required autocomplete="off" /></div>
-            <div><input class="input input--phone" type="text" name="Телефон" placeholder="Телефон" required autocomplete="off" /></div>
-            <label class="checkbox">
-              <input class="checkbox_default" type="checkbox" required checked />
-              <div class="checkbox_custom"></div>
-              <div class="checkbox_text">Согласен(-на) на обработку персональных данных</div>
-            </label>
-            <button class="btn-form">Отправить</button>
-          </form>
+        <div class="shop__btn-wrap glide__arrows" data-glide-el="controls">
+          <button class="shop-btn shop__btn glide__arrow glide__arrow--right" data-glide-dir=">">
+            <img src="./assets/img/shop/arrow-right.svg" alt="дальше" />
+          </button>
         </div>
       </div>
-      <img src="./assets/img/parts/icon_picture.svg" alt="./assets/img/parts/icon_picture.svg" class="img-parts i1" />
-      <img src="./assets/img/parts/icon_cactus.svg" alt="./assets/img/parts/icon_cactus.svg" class="img-parts i2" />
-      <img src="./assets/img/parts/icon_lamp2.svg" alt="./assets/img/parts/icon_lamp2.svg" class="img-parts i3" />
-      <img src="./assets/img/parts/icon_lamp.svg" alt="./assets/img/parts/icon_lamp.svg" class="img-parts i4" />
-      <img src="./assets/img/parts/icon_armchair.svg" alt="./assets/img/parts/icon_armchair.svg" class="img-parts i5" />
-      <img src="./assets/img/parts/icon_cabinet.svg" alt="./assets/img/parts/icon_cabinet.svg" class="img-parts i6" />
-      <img src="./assets/img/parts/icon_chair.svg" alt="./assets/img/parts/icon_chair.svg" class="img-parts i7" />
-      <img src="./assets/img/parts/icon_mirrow.svg" alt="./assets/img/parts/icon_mirrow.svg" class="img-parts i8" />
-      <img src="./assets/img/parts/icon_tvtable.svg" alt="./assets/img/parts/icon_tvtable.svg" class="img-parts i9" />
-      <img src="./assets/img/parts/icon_tvtable2.svg" alt="./assets/img/parts/icon_tvtable2.svg" class="img-parts i10" />
-      <img src="./assets/img/parts/icon_sofa_lamp.svg" alt="./assets/img/parts/icon_sofa_lamp.svg" class="img-parts i11" />
-      <img src="./assets/img/parts/icon_table.svg" alt="./assets/img/parts/icon_table.svg" class="img-parts i12" />
-      <img src="./assets/img/parts/icon_window.svg" alt="./assets/img/parts/icon_window.svg" class="img-parts i13" />
-      <div class="shopsbg bg_con" style="background-image: url('./assets/img/formbg.jpg')"></div>
-    </section>
-    <section id="s4" class="section section--insta">
-      <div class="holder">
-        <div class="title-cover">
-          <h2 class="title title--type">Мы в иснтаграме</h2>
-        </div>
-        <div class="insta-slider">
-          <div class="insta-slider__bg b1"></div>
-          <div class="insta-slider__bg b2"></div>
-          <div class="insta-slider__btn"></div>
-          <div class="insta-slider__btn2"></div>
-          <div class="slider-insta-cover owl-carousel owl-theme">
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in1.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+
+      <div class="shop shop_filters">
+        <ul class="filters filters_inactive">
+          <!-- content generated throgh JS -->
+        </ul>
+      </div>
+
+      <div class="shop shop_brands">
+        <ul class="brands"></ul>
+
+        <article class="brand-desc"></article>
+      </div>
+
+      <h2 id="form" class="title title-form">ВСЕ ЕЩЕ ДУМАЕШЬ,<br />ГДЕ КУПИТЬ МЕБЕЛЬ?</h2>
+      <div class="form-cover">
+        <h3 class="title title-form-box">Приезжай в AURA!</h3>
+        <p class="form-subtitle">А если остались вопросы, заполните форму <br />и мы обязательно свяжемся с вами</p>
+        <form>
+          <!-- Hidden Required Fields -->
+          <input type="hidden" name="project_name" value="iphylosophy.ru" />
+          <input type="hidden" name="admin_email" value="dev@iphylosophy.ru" />
+          <input type="hidden" name="form_subject" value="Контактная информация клиента" />
+          <!-- END Hidden Required Fields -->
+          <div><input class="input" type="text" name="Имя" placeholder="Имя" required autocomplete="off" /></div>
+          <div><input class="input input--phone" type="text" name="Телефон" placeholder="Телефон" required
+              autocomplete="off" /></div>
+          <label class="checkbox">
+            <input class="checkbox_default" type="checkbox" required checked />
+            <div class="checkbox_custom"></div>
+            <div class="checkbox_text">Согласен(-на) на обработку персональных данных</div>
+          </label>
+          <button class="btn-form">Отправить</button>
+        </form>
+      </div>
+    </div>
+    <img src="./assets/img/parts/icon_picture.svg" alt="./assets/img/parts/icon_picture.svg" class="img-parts i1" />
+    <img src="./assets/img/parts/icon_cactus.svg" alt="./assets/img/parts/icon_cactus.svg" class="img-parts i2" />
+    <img src="./assets/img/parts/icon_lamp2.svg" alt="./assets/img/parts/icon_lamp2.svg" class="img-parts i3" />
+    <img src="./assets/img/parts/icon_lamp.svg" alt="./assets/img/parts/icon_lamp.svg" class="img-parts i4" />
+    <img src="./assets/img/parts/icon_armchair.svg" alt="./assets/img/parts/icon_armchair.svg" class="img-parts i5" />
+    <img src="./assets/img/parts/icon_cabinet.svg" alt="./assets/img/parts/icon_cabinet.svg" class="img-parts i6" />
+    <img src="./assets/img/parts/icon_chair.svg" alt="./assets/img/parts/icon_chair.svg" class="img-parts i7" />
+    <img src="./assets/img/parts/icon_mirrow.svg" alt="./assets/img/parts/icon_mirrow.svg" class="img-parts i8" />
+    <img src="./assets/img/parts/icon_tvtable.svg" alt="./assets/img/parts/icon_tvtable.svg" class="img-parts i9" />
+    <img src="./assets/img/parts/icon_tvtable2.svg" alt="./assets/img/parts/icon_tvtable2.svg" class="img-parts i10" />
+    <img src="./assets/img/parts/icon_sofa_lamp.svg" alt="./assets/img/parts/icon_sofa_lamp.svg"
+      class="img-parts i11" />
+    <img src="./assets/img/parts/icon_table.svg" alt="./assets/img/parts/icon_table.svg" class="img-parts i12" />
+    <img src="./assets/img/parts/icon_window.svg" alt="./assets/img/parts/icon_window.svg" class="img-parts i13" />
+    <div class="shopsbg bg_con" style="background-image: url('./assets/img/formbg.jpg')"></div>
+  </section>
+  <section id="s4" class="section section--insta">
+    <div class="holder">
+      <div class="title-cover">
+        <h2 class="title title--type">Мы в иснтаграме</h2>
+      </div>
+      <div class="insta-slider">
+        <div class="insta-slider__bg b1"></div>
+        <div class="insta-slider__bg b2"></div>
+        <div class="insta-slider__btn"></div>
+        <div class="insta-slider__btn2"></div>
+        <div class="slider-insta-cover owl-carousel owl-theme">
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in1.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in2.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in2.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in3.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in3.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in4.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in4.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in1.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in1.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in2.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in2.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in3.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in3.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-            <a href="" target="_blank" class="item-card">
-              <div class="item-card__img">
-                <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in4.jpg')"></div>
-                <div class="item-card__img-content">
-                  <div class="item-card__img-data">
-                    <span>01 октября</span>
-                  </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
+          <a href="" target="_blank" class="item-card">
+            <div class="item-card__img">
+              <div class="item-card__img-bg abs100 bg_cov" style="background-image: url('./assets/img/in4.jpg')"></div>
+              <div class="item-card__img-content">
+                <div class="item-card__img-data">
+                  <span>01 октября</span>
                 </div>
               </div>
-              <div class="item-card__body">
-                <h4 class="item-card__title">Заголовок</h4>
-                <p class="item-card__text">Описание</p>
-              </div>
-            </a>
-          </div>
+            </div>
+            <div class="item-card__body">
+              <h4 class="item-card__title">Заголовок</h4>
+              <p class="item-card__text">Описание</p>
+            </div>
+          </a>
         </div>
       </div>
-    </section>
-    <section class="section section--rew">
-      <div class="holder">
-        <div class="title-cover">
-          <h2 class="title title--type title--rew">Отзывы</h2>
+    </div>
+  </section>
+  <section class="section section--rew">
+    <div class="holder">
+      <div class="title-cover">
+        <h2 class="title title--type title--rew">Отзывы</h2>
+      </div>
+      <div class="rew-cover">
+        <div class="rew-section">
+          <div class="rew-img bg_con" style="background-image: url('./assets/img/ys.png')"></div>
         </div>
-        <div class="rew-cover">
-          <div class="rew-section">
-            <div class="rew-img bg_con" style="background-image: url('./assets/img/ys.png')"></div>
-          </div>
-          <div class="rew-section">
-            <div class="rew-box">
-              <div class="rew-box_quotes"></div>
-              <div class="rew-box_quotes"></div>
-              <div class="rew-slider owl-carousel owl-theme">
-                <div class="rew-item">
-                  <div class="rew-item_img bg_cov" style="background-image: url('./assets/img/ava.png')"></div>
-                  <h3 class="rew-item_title">Елизавета</h3>
-                  <p class="rew-item_text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, quis? Rerum officiis consectetur aspernatur itaque numquam pariatur, iusto aliquam quisquam
-                    error vero earum placeat, facilis veritatis nobis possimus commodi quasi.
-                  </p>
-                </div>
-                <div class="rew-item">
-                  <div class="rew-item_img bg_cov" style="background-image: url('./assets/img/ava.png')"></div>
-                  <h3 class="rew-item_title">Елизавета</h3>
-                  <p class="rew-item_text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, quis? Rerum officiis consectetur aspernatur itaque numquam pariatur, iusto aliquam quisquam
-                    error vero earum placeat, facilis veritatis nobis possimus commodi quasi.
-                  </p>
-                </div>
-                <div class="rew-item">
-                  <div class="rew-item_img bg_cov" style="background-image: url('./assets/img/ava.png')"></div>
-                  <h3 class="rew-item_title">Елизавета</h3>
-                  <p class="rew-item_text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque aspernatur ratione quod adipisci laborum autem odit odio sapiente, facere reprehenderit neque
-                    consequuntur ipsa asperiores. Sapiente minima veniam harum provident placeat! Delectus consectetur laudantium, soluta velit dolorum facilis illum quo, pariatur
-                    officia ratione in quis deleniti, omnis qui voluptates. Mollitia blanditiis aut neque praesentium soluta vel nisi tempore quam dicta? Deserunt eos odit magnam
-                    quibusdam pariatur cupiditate eveniet amet, et architecto ipsam tenetur neque sapiente doloribus quam quisquam nihil labore molestias. Tempore quasi, velit
-                    eveniet qui deserunt, laudantium maiores sapiente minima nam at nihil recusandae, culpa magnam voluptate deleniti consequatur. Quam, assumenda! Voluptas culpa
-                    iusto excepturi placeat quisquam. Mollitia at in rerum perspiciatis vitae tenetur cum, dolor sit, possimus architecto aliquam eaque, ducimus eum cumque nobis
-                    natus incidunt harum. Atque maxime, hic assumenda doloribus impedit provident ratione distinctio debitis temporibus nulla veniam corporis non commodi dolore
-                    quis. Odio earum facilis perspiciatis.
-                  </p>
-                </div>
+        <div class="rew-section">
+          <div class="rew-box">
+            <div class="rew-box_quotes"></div>
+            <div class="rew-box_quotes"></div>
+            <div class="rew-slider owl-carousel owl-theme">
+              <div class="rew-item">
+                <div class="rew-item_img bg_cov" style="background-image: url('./assets/img/ava.png')"></div>
+                <h3 class="rew-item_title">Елизавета</h3>
+                <p class="rew-item_text">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, quis? Rerum officiis consectetur
+                  aspernatur itaque numquam pariatur, iusto aliquam quisquam
+                  error vero earum placeat, facilis veritatis nobis possimus commodi quasi.
+                </p>
+              </div>
+              <div class="rew-item">
+                <div class="rew-item_img bg_cov" style="background-image: url('./assets/img/ava.png')"></div>
+                <h3 class="rew-item_title">Елизавета</h3>
+                <p class="rew-item_text">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, quis? Rerum officiis consectetur
+                  aspernatur itaque numquam pariatur, iusto aliquam quisquam
+                  error vero earum placeat, facilis veritatis nobis possimus commodi quasi.
+                </p>
+              </div>
+              <div class="rew-item">
+                <div class="rew-item_img bg_cov" style="background-image: url('./assets/img/ava.png')"></div>
+                <h3 class="rew-item_title">Елизавета</h3>
+                <p class="rew-item_text">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque aspernatur ratione quod adipisci
+                  laborum autem odit odio sapiente, facere reprehenderit neque
+                  consequuntur ipsa asperiores. Sapiente minima veniam harum provident placeat! Delectus consectetur
+                  laudantium, soluta velit dolorum facilis illum quo, pariatur
+                  officia ratione in quis deleniti, omnis qui voluptates. Mollitia blanditiis aut neque praesentium
+                  soluta vel nisi tempore quam dicta? Deserunt eos odit magnam
+                  quibusdam pariatur cupiditate eveniet amet, et architecto ipsam tenetur neque sapiente doloribus quam
+                  quisquam nihil labore molestias. Tempore quasi, velit
+                  eveniet qui deserunt, laudantium maiores sapiente minima nam at nihil recusandae, culpa magnam
+                  voluptate deleniti consequatur. Quam, assumenda! Voluptas culpa
+                  iusto excepturi placeat quisquam. Mollitia at in rerum perspiciatis vitae tenetur cum, dolor sit,
+                  possimus architecto aliquam eaque, ducimus eum cumque nobis
+                  natus incidunt harum. Atque maxime, hic assumenda doloribus impedit provident ratione distinctio
+                  debitis temporibus nulla veniam corporis non commodi dolore
+                  quis. Odio earum facilis perspiciatis.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="section section--contacts bg_cov" style="background-image: url('./assets/img/family.jpg')">
-      <div class="abs100 section-shad"></div>
-      <div class="holder">
-        <div class="logo_w bg_con"></div>
-        <p class="contact-text">Аренда площадей: 600-812</p>
-        <p class="contact-text">
-          Администратор торгового центра: <a href="tel:89627600280"><span>8-962-76-00-280</span></a>
-        </p>
-        <div class="contact-cover">
-          <div class="contact-item">
-            <div class="contact-item__img bg_con" style="background-image: url('./assets/img/icon_clock.svg')"></div>
-            <div class="contact-item__text">ПН-ВС: 10:00-20:00, <br />без перерывов</div>
-          </div>
-          <div class="contact-item">
-            <a href="" class="contact-item__img bg_con" style="background-image: url('./assets/img/contacts/icon_whatsap.svg')"></a>
-          </div>
-          <div class="contact-item">
-            <a href="" class="contact-item__img bg_con" style="background-image: url('./assets/img/contacts/icon_viber.svg')"></a>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item__img bg_con" style="background-image: url('./assets/img/icon_loc.svg')"></div>
-            <div class="contact-item__text">г. Волгоград, <br />проспект Жукова, 94</div>
-          </div>
+    </div>
+  </section>
+  <section class="section section--contacts bg_cov" style="background-image: url('./assets/img/family.jpg')">
+    <div class="abs100 section-shad"></div>
+    <div class="holder">
+      <div class="logo_w bg_con"></div>
+      <p class="contact-text">Аренда площадей: 600-812</p>
+      <p class="contact-text">
+        Администратор торгового центра: <a href="tel:89627600280"><span>8-962-76-00-280</span></a>
+      </p>
+      <div class="contact-cover">
+        <div class="contact-item">
+          <div class="contact-item__img bg_con" style="background-image: url('./assets/img/icon_clock.svg')"></div>
+          <div class="contact-item__text">ПН-ВС: 10:00-20:00, <br />без перерывов</div>
         </div>
-        <div class="contact-link-cover">
-          <a href="#s1" class="go_to contact-link"><span class="contact-link__text">О центре</span></a>
-          <a href="#s2" class="go_to contact-link"><span class="contact-link__text">Акции</span></a>
-          <a href="#s3" class="go_to contact-link"><span class="contact-link__text">Магазины</span></a>
-          <a href="#s4" class="go_to contact-link"><span class="contact-link__text">Инстаграм</span></a>
+        <div class="contact-item">
+          <a href="" class="contact-item__img bg_con"
+            style="background-image: url('./assets/img/contacts/icon_whatsap.svg')"></a>
         </div>
-        <div class="contact-btn-cover">
-          <div class="btn btn--white btn-map">Построить маршрут</div>
-          <div class="btn btn--white">Скачать каталог</div>
+        <div class="contact-item">
+          <a href="" class="contact-item__img bg_con"
+            style="background-image: url('./assets/img/contacts/icon_viber.svg')"></a>
         </div>
-        <span class="contact-desc">2019 All rights reserved</span>
-        <a class="visa-link" href="" target="_blank"><span class="contact-desc contact-desc--visa">Создание сайта - Interdex</span></a>
+        <div class="contact-item">
+          <div class="contact-item__img bg_con" style="background-image: url('./assets/img/icon_loc.svg')"></div>
+          <div class="contact-item__text">г. Волгоград, <br />проспект Жукова, 94</div>
+        </div>
       </div>
-    </section>
-    <div class="modal-cover"></div>
-    <script src="./jquery.js"></script>
-    <script src="./glide.min.js"></script>
-    <script defer src="./assets/vue.min.js"></script>
-    <script defer src="./assets/wow.js"></script>
-    <script defer src="./bundle.js"></script>
-    <script src="./script.js"></script>
-  </body>
+      <div class="contact-link-cover">
+        <a href="#s1" class="go_to contact-link"><span class="contact-link__text">О центре</span></a>
+        <a href="#s2" class="go_to contact-link"><span class="contact-link__text">Акции</span></a>
+        <a href="#s3" class="go_to contact-link"><span class="contact-link__text">Магазины</span></a>
+        <a href="#s4" class="go_to contact-link"><span class="contact-link__text">Инстаграм</span></a>
+      </div>
+      <div class="contact-btn-cover">
+        <div class="btn btn--white btn-map">Построить маршрут</div>
+        <div class="btn btn--white">Скачать каталог</div>
+      </div>
+      <span class="contact-desc">2019 All rights reserved</span>
+      <a class="visa-link" href="" target="_blank"><span class="contact-desc contact-desc--visa">Создание сайта -
+          Interdex</span></a>
+    </div>
+  </section>
+  <div class="modal-cover"></div>
+  <script src="./jquery.js"></script>
+  <script src="./glide.min.js"></script>
+  <script defer src="./assets/vue.min.js"></script>
+  <script defer src="./assets/wow.js"></script>
+  <script defer src="./bundle.js"></script>
+  <script src="./script.js"></script>
+</body>
+
 </html>

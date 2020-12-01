@@ -492,18 +492,24 @@ shopList.on('click', (e) => {
     target = target.closest('li');
   }
 
-  if (target.attr('id') == 'shop-interior') {
-    filters.fadeIn('', function () {
-      $(this).addClass('filters_active');
-      $(this).css('display', 'flex');
-    });
-  } else {
-    filters.fadeOut('', function () {
-      $(this).removeClass('filters_active');
-    });
-    let targetID = target.attr('id');
+  let targetID = target.attr('id');
+  if (brandsList.attr('data-category') == targetID) return;
 
-    if (brandsList.attr('data-category') == targetID) return;
+  if (target.attr('id') == 'shop-interior') {
+    filters.addClass('filters_active');
+    filters.removeClass('filters_inactive');
+
+    brandsList.addClass('brands_inactive');
+
+    setTimeout(() => {
+      brandsList.empty();
+      createListWithBrands(brandsData, targetID, $('.brands'));
+      brandsList.attr('data-category', targetID);
+      activeCatergory = targetID;
+    }, 300);
+  } else {
+    filters.removeClass('filters_active');
+    filters.addClass('filters_inactive')
 
     //brandsList.removeClass('brands_active');
     brandsList.addClass('brands_inactive');
@@ -628,7 +634,7 @@ function createSlider(data, parent) {
 
   new Glide('.glide', {
     type: 'carousel',
-    perView: 6,
+    perView: 5,
   }).mount();
 
   let imgHeight = $('.shop__img').height();

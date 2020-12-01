@@ -1,12 +1,12 @@
 ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding   : 0;
+  margin    : 0;
 }
 
 .shop-btn {
-  border: none;
-  box-shadow: none;
+  border          : none;
+  box-shadow      : none;
   background-color: transparent;
 }
 
@@ -25,20 +25,22 @@ ul {
 }
 
 .shop__wrapper {
-  width: 100%;
+  width   : 100%;
   overflow: hidden;
 }
 
 .shop__list {
-  display: flex;
+  display  : flex;
   flex-wrap: nowrap;
-  width: 100%;
-  overflow: hidden;
+  width    : 100%;
+  overflow : hidden;
 }
 
 .shop__item {
-  width: calc(100% / 6 - 30px);
-  text-align: center;
+  max-width      : calc(100% / 6 - 30px);
+  display        : flex;
+  justify-content: center;
+  text-align     : center;
 }
 
 .shop__item:hover {
@@ -50,14 +52,19 @@ ul {
 }
 
 .shop__img-wrap {
-  width: 200px;
-  height: 120px;
-  overflow: hidden;
+  width        : 200px;
+  height       : 120px;
+  overflow     : hidden;
   border-radius: 5px;
 }
 
+.shop__img {
+  transition: transform .3s linear;
+}
+
 .shop__img:hover {
-  animation: kenburns-top 0.9s linear forwards;
+  /* animation: kenburns-top 0.9s linear forwards; */
+  transform: scale(1.2);
 }
 
 .shop__img {
@@ -65,18 +72,18 @@ ul {
 }
 
 .shop__btn-wrap {
-  position: absolute;
-  right: 0;
+  position : absolute;
+  right    : 0;
   transform: translate(50%, -50%);
-  cursor: pointer;
+  cursor   : pointer;
 }
 
 .shop__btn {
-  width: 43px;
-  height: 43px;
-  border-radius: 50%;
+  width           : 43px;
+  height          : 43px;
+  border-radius   : 50%;
   background-color: #fff;
-  cursor: pointer;
+  cursor          : pointer;
 }
 
 .shop__btn img {
@@ -86,9 +93,9 @@ ul {
 .shop__title {
   margin-top: 16px;
 
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 25px;
+  font-weight   : 600;
+  font-size     : 17px;
+  line-height   : 25px;
   text-transform: uppercase;
 }
 
@@ -98,33 +105,34 @@ ul {
 
 .filters {
   flex-wrap: wrap;
-  opacity: 0;
-  height: 0;
-  display: none;
+  display  : flex;
   transform: translateX(-100vw);
 }
 
 .filters_active {
-  display: flex;
-  opacity: 1;
-  height: auto;
-  transform: translate(0);
+  animation   : fade-in 0.3s linear forwards;
+  /* height   : auto; */
+  /* transform: translate(0); */
+}
+
+.filters_inactive {
+  animation: fade-out 0.3s linear forwards;
 }
 
 .filters__item {
   padding-right: 19px;
-  border-right: 2px solid #ececec;
+  border-right : 2px solid #ececec;
   margin-bottom: 15px;
-  min-height: 27px;
+  min-height   : 27px;
 }
 
 .filters__btn {
-  position: relative;
+  position   : relative;
   font-weight: 600;
-  font-size: 14px;
+  font-size  : 14px;
   line-height: 110%;
-  height: 100%;
-  color: #cbcbcb;
+  height     : 100%;
+  color      : #cbcbcb;
 }
 
 .filters__btn:focus,
@@ -137,14 +145,14 @@ ul {
 }
 
 .filters__btn::before {
-  content: '';
+  content : '';
   position: absolute;
-  left: -60px;
-  top: 0;
+  left    : -60px;
+  top     : 0;
 
   display: block;
-  width: 42px;
-  height: 27px;
+  width  : 42px;
+  height : 27px;
 
   background-repeat: no-repeat;
 }
@@ -154,27 +162,27 @@ ul {
 }
 
 .filters__item:nth-child(2) .filters__btn::before {
-  background-image: url('./assets/img/shop/filters-sprite.png');
+  background-image   : url('./assets/img/shop/filters-sprite.png');
   background-position: 0 -64px;
 }
 
 .filters__item:nth-child(3) .filters__btn::before {
-  background-image: url('./assets/img/shop/filters-sprite.png');
+  background-image   : url('./assets/img/shop/filters-sprite.png');
   background-position: 0 -111px;
 }
 
 .filters__item:nth-child(4) .filters__btn::before {
-  background-image: url('./assets/img/shop/filters-sprite.png');
+  background-image   : url('./assets/img/shop/filters-sprite.png');
   background-position: -61px -59px;
 }
 
 .filters__item:nth-child(5) .filters__btn::before {
-  background-image: url('./assets/img/shop/filters-sprite.png');
+  background-image   : url('./assets/img/shop/filters-sprite.png');
   background-position: -15px -16px;
 }
 
 .filters__item:nth-child(6) .filters__btn::before {
-  background-image: url('./assets/img/shop/filters-sprite.png');
+  background-image   : url('./assets/img/shop/filters-sprite.png');
   background-position: -15px -16px;
 }
 
@@ -183,9 +191,9 @@ ul {
 }
 
 .brands {
-  display: flex;
+  display  : flex;
   flex-wrap: wrap;
-  opacity: 0;
+  opacity  : 0;
 }
 
 .brands_active {
@@ -197,14 +205,14 @@ ul {
 }
 
 .brands__item {
-  width: calc(100% / 4 - 22.5px);
-  border: 1px solid #ececec;
+  width        : calc(100% / 4 - 22.5px);
+  border       : 1px solid #ececec;
   margin-bottom: 35px;
-  transition: box-shadow 0.3s linear;
+  transition   : box-shadow 0.3s linear;
 }
 
 .brands__item:hover {
-  cursor: pointer;
+  cursor    : pointer;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
 }
 
@@ -213,34 +221,34 @@ ul {
 }
 
 .brands__item-wrap {
-  display: flex;
+  display        : flex;
   justify-content: center;
-  align-items: center;
-  padding: 30px 45px;
+  align-items    : center;
+  padding        : 30px 45px;
 }
 
 .brand-desc {
   position: relative;
 
-  display: flex;
-  padding-top: 25px;
+  display      : flex;
+  padding-top  : 25px;
   margin-bottom: 75px;
 }
 
 .brand-desc__btn {
   position: absolute;
-  top: 0;
-  right: 0;
+  top     : 0;
+  right   : 0;
 
-  border: none;
-  box-shadow: none;
-  display: flex;
+  border     : none;
+  box-shadow : none;
+  display    : flex;
   align-items: center;
 
   font-weight: 500;
-  font-size: 20px;
+  font-size  : 20px;
   line-height: 27px;
-  color: #b9b9b9;
+  color      : #b9b9b9;
 
   background-color: transparent;
 }
@@ -248,16 +256,16 @@ ul {
 .brand-desc__btn:hover,
 .brand-desc__btn:focus,
 .brand-desc__btn:active {
-  outline: none;
+  outline        : none;
   text-decoration: underline;
 }
 
 .brand-desc__btn-arrow {
-  width: 10px;
-  height: 10px;
+  width        : 10px;
+  height       : 10px;
   border-bottom: 3px solid #b9b9b9;
-  border-left: 3px solid #b9b9b9;
-  margin-right: 8.5px;
+  border-left  : 3px solid #b9b9b9;
+  margin-right : 8.5px;
 
   transform: rotate(45deg);
 }
@@ -267,13 +275,13 @@ ul {
 }
 
 .brand-desc__wrap_right {
-  margin-top: 30px;
+  margin-top : 30px;
   margin-left: 30px;
   flex-shrink: 6;
 
-  font-size: 20px;
+  font-size  : 20px;
   line-height: 27px;
-  color: #000000;
+  color      : #000000;
 
   color: #000000;
 }
@@ -283,20 +291,20 @@ ul {
 }
 
 .brand-desc__logo-wrap {
-  float: right;
+  float       : right;
   margin-right: 40px;
 }
 
 .brand-desc__main {
-  font-size: 25px;
+  font-size  : 25px;
   line-height: 34px;
 }
 
 .brand-desc__item {
-  position: relative;
-  font-weight: bold;
+  position    : relative;
+  font-weight : bold;
   padding-left: 55px;
-  display: flex;
+  display     : flex;
 }
 
 .brand-desc__item:not(:last-child) {
@@ -305,20 +313,20 @@ ul {
 
 .brand-desc__link {
   position: relative;
-  display: block;
+  display : block;
 }
 
 .brand-desc__link::before {
-  content: '';
+  content : '';
   position: absolute;
-  left: -55px;
+  left    : -55px;
 
-  width: 32px;
-  height: 38px;
-  top: 50%;
+  width    : 32px;
+  height   : 38px;
+  top      : 50%;
   transform: translateY(-50%);
 
-  background-image: url('./assets/img/shop/brands/icon_phone.png');
+  background-image : url('./assets/img/shop/brands/icon_phone.png');
   background-repeat: no-repeat;
 }
 
@@ -327,16 +335,16 @@ ul {
 }
 
 .brand-desc__link_download {
-  max-width: 200px;
-  border: 2.5px solid #ea5b21;
+  max-width    : 200px;
+  border       : 2.5px solid #ea5b21;
   border-radius: 3px;
-  padding: 10px 25px;
+  padding      : 10px 25px;
 
   font-weight: bold;
-  font-size: 16px;
+  font-size  : 16px;
   line-height: 22px;
-  text-align: center;
-  color: #ea5b21;
+  text-align : center;
+  color      : #ea5b21;
 }
 
 .brand-desc__link_download::before {
@@ -345,40 +353,62 @@ ul {
 
 @keyframes kenburns-top {
   0% {
-    transform: scale(1) translateY(0);
+    transform       : scale(1) translateY(0);
     transform-origin: 50% 16%;
   }
+
   100% {
-    transform: scale(1.25) translateY(-15px);
+    transform       : scale(1.25) translateY(-15px);
     transform-origin: top;
   }
 }
 
-/* ----------------------------------------------
- * Generated by Animista on 2020-12-1 16:24:47
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
 @keyframes fade-in-fwd {
   0% {
     transform: translateZ(-80px);
-    opacity: 0;
+    opacity  : 0;
   }
+
   100% {
     transform: translateZ(0);
-    opacity: 1;
+    opacity  : 1;
   }
 }
 
 @keyframes fade-out-fwd {
   0% {
     transform: translateZ(0);
-    opacity: 1;
+    opacity  : 1;
   }
+
   100% {
     transform: translateZ(80px);
-    opacity: 0;
+    opacity  : 0;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    position : relative;
+    transform: translateZ(-80px);
+    opacity  : 0;
+  }
+
+  100% {
+    transform: translateZ(0);
+    opacity  : 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    transform: translateZ(0);
+    opacity  : 1;
+  }
+
+  100% {
+    position : absolute;
+    transform: translateZ(80px);
+    opacity  : 0;
   }
 }
