@@ -546,7 +546,6 @@ brandsList.on('click', function (e) {
   $('.brand-desc__btn').on('click', () => {
     console.log(activeCatergory);
     $('.shop_brands').removeClass('shop_brands-open');
-    //createListWithBrands(brandsData, activeCatergory, $('.brands'));
     setTimeout(() => {
       $('.brand-desc').empty();
 
