@@ -665,8 +665,25 @@ function createSlider(data, parent) {
       3000: {
         perView: 6,
       },
-      1300: {
+      1024: {
         perView: 5,
+      },
+      800: {
+        perView: 4,
+      },
+      600: {
+        perView: 3,
+        peek: {
+          before: 0,
+          after: 0
+        }
+      },
+      450: {
+        perView: 2,
+        peek: {
+          before: 0,
+          after: 50
+        }
       },
     },
   }).mount();
