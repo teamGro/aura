@@ -143,11 +143,15 @@ ul {
   flex-wrap: wrap;
   display: flex;
   transform: translateX(-100vw);
+  /*  display: none;*/
+  opacity: 0;
 }
 
 .filters_active {
-  animation: fade-in 0.3s linear forwards;
-  animation-delay: 0.3s;
+  /* animation: fade-in 0.3s linear forwards;
+  animation-delay: 0.3s; */
+  opacity: 1;
+  transform: translate(0);
 }
 
 .filters_inactive {
@@ -242,15 +246,17 @@ ul {
   display: flex;
   flex-wrap: wrap;
   opacity: 0;
+  /*display: none;*/
 }
 
 .brands_active {
-  animation: fade-in-fwd 0.3s linear forwards;
+  /* animation: fade-in-fwd 0.3s linear forwards; */
+  opacity: 1;
 }
 
-.brands_inactive {
+/*.brands_inactive {
   animation: fade-out-fwd 0.3s linear forwards;
-}
+} */
 
 .brands__item {
   width: calc(100% / 4 - 22.5px);

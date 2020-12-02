@@ -477,7 +477,7 @@ createSlider(sliderData, $('.shop__list'));
 
 createFilters(filtersData, $('.filters'));
 
-createListWithBrands(brandsData, 'shop-soft', $('.brands'));
+createListWithBrands(brandsData, sliderData[0].id, $('.brands'));
 let brandsList = $('.brands');
 brandsList.attr('data-category', sliderData[0].id);
 let activeCatergory = sliderData[0].id;
@@ -499,38 +499,44 @@ shopsList.on('click', (e) => {
   console.log(activeElem);
 
   let targetID = target.attr('id');
-  if (brandsList.attr('data-category') == targetID) return;
+  console.log(target.attr('id'));
+  if (brandsList.attr('data-category') == targetID) {
+    console.log(target.attr('id'));
+    return;
+  }
+
+  if ($('.shop_brands').hasClass('shop_brands-open')) {
+    $('.shop_brands').removeClass('shop_brands-open');
+  }
 
   if (target.attr('id') == 'shop-interior') {
+    filters.slideDown();
     filters.addClass('filters_active');
-    filters.removeClass('filters_inactive');
 
-    brandsList.addClass('brands_inactive');
+    brandsList.slideUp();
+    brandsList.empty();
+    brandsList.attr('data-category', targetID);
+    activeCatergory = targetID;
 
     setTimeout(() => {
-      brandsList.empty();
+      brandsList.removeClass('brands_active');
       createListWithBrands(brandsData, targetID, $('.brands'));
-      brandsList.attr('data-category', targetID);
-      activeCatergory = targetID;
-    }, 300);
+    }, 200);
   } else {
-    filters.removeClass('filters_active');
-    filters.addClass('filters_inactive');
-
-    if ($('.shop_brands').hasClass('shop_brands-open')) {
-      $('.shop_brands').removeClass('shop_brands-open');
+    if (filters.hasClass('filters_active')) {
+      filters.removeClass('filters_active');
+      filters.slideUp();
     }
 
-    //brandsList.removeClass('brands_active');
-    brandsList.addClass('brands_inactive');
+    brandsList.slideUp();
+    brandsList.empty();
+    brandsList.attr('data-category', targetID);
+    activeCatergory = targetID;
 
     setTimeout(() => {
-      brandsList.empty();
+      brandsList.removeClass('brands_active');
       createListWithBrands(brandsData, targetID, $('.brands'));
-      brandsList.attr('data-category', targetID);
-      activeCatergory = targetID;
-      $('.brand-desc').empty();
-    }, 300);
+    }, 200);
   }
 });
 
@@ -623,9 +629,10 @@ function createListWithBrands(data, currentID, parent) {
       parent.append(elem);
     }
   }
+  parent.slideDown();
   setTimeout(() => {
-    parent.removeClass('brands_inactive');
     parent.addClass('brands_active');
+    console.log(parent);
   }, 100);
 }
 
