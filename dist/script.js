@@ -484,6 +484,7 @@ let activeCatergory = sliderData[0].id;
 
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
+filters.slideUp();
 
 const shopsList = $('.shop__list');
 shopsList.on('click', (e) => {
@@ -524,7 +525,7 @@ shopsList.on('click', (e) => {
     setTimeout(() => {
       brandsList.removeClass('brands_active');
       createListWithBrands(brandsData, targetID, $('.brands'));
-    }, 200);
+    }, 400);
   } else {
     if (filters.hasClass('filters_active')) {
       filters.removeClass('filters_active');

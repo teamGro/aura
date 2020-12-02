@@ -141,15 +141,14 @@ ul {
 }
 
 .filters {
+  position : relative;
   flex-wrap: wrap;
   display  : flex;
-  transform: translateX(-100vw);
   opacity  : 0;
 }
 
 .filters_active {
-  opacity  : 1;
-  transform: translate(0);
+  opacity: 1;
 }
 
 .filters_inactive {
