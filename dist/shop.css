@@ -466,13 +466,29 @@ ul {
   }
 }
 
+@media(max-width: 992px) {
+  .brands__item {
+    width: calc(100% / 3 - 10px);
+  }
+
+  .brands__item:not(:nth-child(4n)) {
+    margin-right: 0;
+  }
+
+  .brands__item:not(:nth-child(3n)) {
+    margin-right: 10px;
+  }
+}
+
 @media(max-width: 768px) {
   .shop__title {
     font-size: 14px;
   }
+
+
 }
 
-@media(max-width: 600px) {
+@media(max-width: 576px) {
   .shop__title {
     font-size: 14px;
   }
@@ -483,6 +499,16 @@ ul {
 
   .shop__img {
     height: 100px;
+  }
+
+  .brands__item {
+    width: calc(100% / 2 - 10px);
+  }
+
+
+
+  .brands__item:nth-child(2n) {
+    margin-left: auto;
   }
 }
 
