@@ -479,24 +479,24 @@ createFilters(filtersData, $('.filters'));
 
 createListWithBrands(brandsData, 'shop-soft', $('.brands'));
 let brandsList = $('.brands');
-brandsList.attr('data-category', 'shop-soft');
-let activeCatergory = 'shop-soft';
-
+brandsList.attr('data-category', sliderData[0].id);
+let activeCatergory = sliderData[0].id;
 
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
 
-const shopList = $('.shop__list');
-shopList.on('click', (e) => {
+const shopsList = $('.shop__list');
+shopsList.on('click', (e) => {
   let target = $(e.target);
 
   if (target.prop('tagName') != 'LI') {
     target = target.closest('li');
   }
 
-  target.addClass('shop__item_active');
   activeElem.removeClass('shop__item_active');
+  target.addClass('shop__item_active');
   activeElem = target;
+  console.log(activeElem);
 
   let targetID = target.attr('id');
   if (brandsList.attr('data-category') == targetID) return;
@@ -554,7 +554,6 @@ brandsList.on('click', function (e) {
     $('.shop_brands').removeClass('shop_brands-open');
     setTimeout(() => {
       $('.brand-desc').empty();
-
     }, 300);
   });
 });
@@ -582,13 +581,13 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
   
                <ul class="brand-desc__list">
                   <li class="brand-desc__item">
-                      <a href="${elem.phoneLink}" class="brand-desc__link">${elem.phone}</a>
+                      <a href="tel:${elem.phoneLink}" class="brand-desc__link">${elem.phone}</a>
                   </li>
                   <li class="brand-desc__item">
                       <a href="${elem.url}" class="brand-desc__link">${elem.url}</a>
                   </li>
                   <li class="brand-desc__item">
-                      <a href="${elem.link}" class="brand-desc__link brand-desc__link_download">Скачать каталог</a>
+                      <a href="${elem.link}" class="brand-desc__link brand-desc__link_download" download>Скачать каталог</a>
                   </li>
               </ul>       
           </div>
@@ -652,8 +651,15 @@ function createSlider(data, parent) {
 
   new Glide('.glide', {
     type: 'carousel',
-    perView: 5,
-    startAt: 0
+    startAt: 0,
+    breakpoints: {
+      3000: {
+        perView: 6,
+      },
+      1300: {
+        perView: 5,
+      },
+    },
   }).mount();
 
   let imgHeight = $('.shop__img').height();
