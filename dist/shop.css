@@ -485,7 +485,9 @@ ul {
     font-size: 14px;
   }
 
-
+  .brand-desc__wrap_left {
+    display: none;
+  }
 }
 
 @media(max-width: 576px) {
@@ -505,7 +507,9 @@ ul {
     width: calc(100% / 2 - 10px);
   }
 
-
+  .brands__item:not(:nth-child(3n)) {
+    margin-right: 0;
+  }
 
   .brands__item:nth-child(2n) {
     margin-left: auto;
@@ -516,14 +520,6 @@ ul {
   .shop__item {
     max-width: calc(100% / 2);
   }
-
-  /* .shop__img-wrap {
-    height: 80px;
-  }
-
-  .shop__img {
-    height: 80px;
-  } */
 }
 
 @keyframes scale-in-center {
