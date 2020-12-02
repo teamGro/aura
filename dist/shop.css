@@ -364,6 +364,7 @@ ul {
   font-weight : bold;
   padding-left: 55px;
   display     : flex;
+  transition  : color .3s linear;
 }
 
 .brand-desc__item:not(:last-child) {
@@ -455,11 +456,6 @@ ul {
   animation       : scale-out-center 0.3s linear forwards;
 }
 
-/* .brand-desc__link_download:hover::after {
-  animation: scale-in-center 0.3s linear forwards;
-  z-index: -1;
-} */
-
 @media(max-width: 1300px) {
   .shop__btn-wrap {
     transform: translate(50%, -50%);
@@ -514,34 +510,14 @@ ul {
   .brands__item:nth-child(2n) {
     margin-left: auto;
   }
+
+  .shop_brands-open {
+    min-height: 680px;
+  }
 }
 
 @media(max-width: 450px) {
   .shop__item {
     max-width: calc(100% / 2);
-  }
-}
-
-@keyframes scale-in-center {
-  0% {
-    transform: scale(0);
-    opacity  : 1;
-  }
-
-  100% {
-    transform: scale(350);
-    opacity  : 1;
-  }
-}
-
-@keyframes scale-out-center {
-  0% {
-    transform: scale(350);
-    opacity  : 1;
-  }
-
-  100% {
-    transform: scale(0);
-    opacity  : 1;
   }
 }
