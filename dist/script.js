@@ -507,6 +507,9 @@ shopsList.on('click', (e) => {
 
   if ($('.shop_brands').hasClass('shop_brands-open')) {
     $('.shop_brands').removeClass('shop_brands-open');
+    setTimeout(() => {
+      $('.brand-desc').empty();
+    }, 300);
   }
 
   if (target.attr('id') == 'shop-interior') {
@@ -603,7 +606,6 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
   for (let i = 0; i < data.length; i++) {
     let item = data[i];
     if (item.title == currentID) {
-      // nodeForRemoving.empty();
       nodeForRemoving.parent().addClass('shop_brands-open');
       parent.append(createLayout(item));
       parent.attr('data-category', currentID);

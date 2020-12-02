@@ -143,13 +143,10 @@ ul {
   flex-wrap: wrap;
   display: flex;
   transform: translateX(-100vw);
-  /*  display: none;*/
   opacity: 0;
 }
 
 .filters_active {
-  /* animation: fade-in 0.3s linear forwards;
-  animation-delay: 0.3s; */
   opacity: 1;
   transform: translate(0);
 }
@@ -246,17 +243,11 @@ ul {
   display: flex;
   flex-wrap: wrap;
   opacity: 0;
-  /*display: none;*/
 }
 
 .brands_active {
-  /* animation: fade-in-fwd 0.3s linear forwards; */
   opacity: 1;
 }
-
-/*.brands_inactive {
-  animation: fade-out-fwd 0.3s linear forwards;
-} */
 
 .brands__item {
   width: calc(100% / 4 - 22.5px);
@@ -420,6 +411,8 @@ ul {
   text-align: center;
   color: #ea5b21;
   transition: all 0.3s linear;
+  z-index: 10;
+  overflow: hidden;
 }
 
 .brand-desc__link_download::before {
@@ -432,77 +425,43 @@ ul {
   color: #fff;
 }
 
-/* .brand-desc__link_download::after {
+.brand-desc__link_download::after {
   content: '';
   position: absolute;
+  top: 50%;
+  left: 50%;
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 1px;
+  height: 1px;
   border-radius: 50%;
   transform-origin: center center;
-  background-color: #fff;
-
-  border: 1px solid red;
-} */
-
-@keyframes kenburns-top {
-  0% {
-    transform: scale(1) translateY(0);
-    transform-origin: 50% 16%;
-  }
-
-  100% {
-    transform: scale(1.25) translateY(-15px);
-    transform-origin: top;
-  }
+  background-color: #ea5b21;
+  animation: scale-out-center 0.3s linear forwards;
 }
 
-@keyframes fade-in-fwd {
-  0% {
-    transform: translateZ(-80px);
-    opacity: 0;
-  }
+.brand-desc__link_download:hover::after {
+  /* content: 'Скачать каталог'; */
+  animation: scale-in-center 0.3s linear forwards;
+}
 
+@keyframes scale-in-center {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
   100% {
-    transform: translateZ(0);
+    transform: scale(250);
     opacity: 1;
   }
 }
 
-@keyframes fade-out-fwd {
+@keyframes scale-out-center {
   0% {
-    transform: translateZ(0);
+    transform: scale(250);
     opacity: 1;
   }
-
   100% {
-    transform: translateZ(80px);
-    opacity: 0;
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    position: relative;
-    transform: translateZ(-80px);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateZ(0);
+    transform: scale(0);
     opacity: 1;
-  }
-}
-
-@keyframes fade-out {
-  0% {
-    transform: translateZ(0);
-    opacity: 1;
-  }
-
-  100% {
-    position: absolute;
-    transform: translateZ(80px);
-    opacity: 0;
   }
 }
