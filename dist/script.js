@@ -48,31 +48,37 @@ let filtersData = [
     title: 'ВСЕ',
     id: 'all',
     classes: 'filters__item filters__item_active',
+    'data-filter': "all",
   },
   {
     title: 'Обои',
     id: 'walls',
     classes: 'filters__item',
+    'data-filter': ".category-a",
   },
   {
     title: 'Двери',
     id: 'doors',
     classes: 'filters__item',
+    'data-filter': ".category-b",
   },
   {
     title: 'Шторы',
     id: 'curtains',
     classes: 'filters__item',
+    'data-filter': ".category-c",
   },
   {
     title: 'Сантехника и керамическая плитка',
     id: 'plumbing',
     classes: 'filters__item',
+    'data-filter': ".category-d",
   },
   {
     title: 'Сантехника и керамическая плитка',
     id: 'hardware',
     classes: 'filters__item',
+    'data-filter': ".category-e",
   },
 ];
 
@@ -202,12 +208,70 @@ let brandsData = [
     img: './assets/img/shop/brands/sofa-formula.png',
     alt: 'Формула дивана',
     id: 'sofa-formula',
+    classes: 'mix category-a',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/bobox.png',
+    alt: 'bobox',
+    id: 'bobox',
+    classes: 'mix category-b',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/color-furniture.png',
+    alt: 'Цвет мебели',
+    id: 'color-furniture',
+    classes: 'mix category-a',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/color-furniture.png',
+    alt: 'Цвет мебели',
+    id: 'color-furniture',
+    classes: 'mix category-c',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/sofa-formula.png',
+    alt: 'Формула дивана',
+    id: 'sofa-formula',
+    classes: 'mix category-c',
   },
   {
     category: 'shop-interior',
     img: './assets/img/shop/brands/egida.png',
     alt: 'egida',
     id: 'egida',
+    classes: 'mix category-d',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/color-furniture.png',
+    alt: 'Цвет мебели',
+    id: 'color-furniture',
+    classes: 'mix category-e',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/furniture.png',
+    alt: 'Мебельторг',
+    id: 'furniture',
+    classes: 'mix category-e',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/sofa-formula.png',
+    alt: 'Формула дивана',
+    id: 'sofa-formula',
+    classes: 'mix category-d',
+  },
+  {
+    category: 'shop-interior',
+    img: './assets/img/shop/brands/egida.png',
+    alt: 'egida',
+    id: 'egida',
+    classes: 'mix category-c',
   },
   {
     category: 'shop-interior',
@@ -220,6 +284,7 @@ let brandsData = [
     img: './assets/img/shop/brands/furniture.png',
     alt: 'Мебельторг',
     id: 'furniture',
+    classes: 'mix category-b',
   },
   {
     category: 'shop-chair-tables',
@@ -485,6 +550,7 @@ let activeCatergory = sliderData[0].id;
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
 filters.slideUp();
+let mixer;
 
 const shopsList = $('.shop__list');
 shopsList.on('click', (e) => {
@@ -497,10 +563,8 @@ shopsList.on('click', (e) => {
   activeElem.removeClass('shop__item_active');
   target.addClass('shop__item_active');
   activeElem = target;
-  console.log(activeElem);
 
   let targetID = target.attr('id');
-  console.log(target.attr('id'));
   if (brandsList.attr('data-category') == targetID) {
     console.log(target.attr('id'));
     return;
@@ -514,10 +578,10 @@ shopsList.on('click', (e) => {
   }
 
   if (target.attr('id') == 'shop-interior') {
-    filters.slideDown();
+    filters.slideDown(800);
     filters.addClass('filters_active');
 
-    brandsList.slideUp();
+    brandsList.slideUp(800);
     brandsList.empty();
     brandsList.attr('data-category', targetID);
     activeCatergory = targetID;
@@ -525,14 +589,15 @@ shopsList.on('click', (e) => {
     setTimeout(() => {
       brandsList.removeClass('brands_active');
       createListWithBrands(brandsData, targetID, $('.brands'));
-    }, 400);
+      mixer = mixitup('.filters');
+    }, 800);
   } else {
     if (filters.hasClass('filters_active')) {
       filters.removeClass('filters_active');
       filters.slideUp();
     }
 
-    brandsList.slideUp();
+    brandsList.slideUp(800);
     brandsList.empty();
     brandsList.attr('data-category', targetID);
     activeCatergory = targetID;
@@ -540,7 +605,7 @@ shopsList.on('click', (e) => {
     setTimeout(() => {
       brandsList.removeClass('brands_active');
       createListWithBrands(brandsData, targetID, $('.brands'));
-    }, 200);
+    }, 800);
   }
 });
 
@@ -564,7 +629,7 @@ brandsList.on('click', function (e) {
     $('.shop_brands').removeClass('shop_brands-open');
     setTimeout(() => {
       $('.brand-desc').empty();
-    }, 300);
+    }, 800);
   });
 });
 
@@ -616,8 +681,9 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
 
 function createListWithBrands(data, currentID, parent) {
   function createLayout(elem) {
+    let cls = elem.classes || '';
     return `
-          <li class="brands__item" id="${elem.id}" data-type="${elem.category}">
+          <li class="brands__item ${cls}" id="${elem.id}" data-type="${elem.category}">
               <div class="brands__item-wrap">
                   <img src="${elem.img}"  alt="${elem.alt}" class="brands__img">
               </div>
@@ -632,10 +698,9 @@ function createListWithBrands(data, currentID, parent) {
       parent.append(elem);
     }
   }
-  parent.slideDown();
+  parent.slideDown(800);
   setTimeout(() => {
     parent.addClass('brands_active');
-    console.log(parent);
   }, 100);
 }
 
@@ -698,7 +763,7 @@ function createSlider(data, parent) {
 function createFilters(data, parent) {
   function createFilterMarkup(elem) {
     return `
-          <li class="${elem.classes}" id="${elem.id}">
+          <li class="${elem.classes}" id="${elem.id}" data-filter="${elem['data-filter']}">
               <button class="shop-btn filters__btn">
                   <span class="filters__desc">${elem.title}</span>
               </button>
