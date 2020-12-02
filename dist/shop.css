@@ -403,6 +403,7 @@ ul {
   max-width: 200px;
   border: 2.5px solid #ea5b21;
   border-radius: 3px;
+  box-sizing: border-box;
   padding: 10px 25px;
 
   font-weight: bold;
@@ -416,13 +417,28 @@ ul {
 }
 
 .brand-desc__link_download::before {
+  background-image: none;
+}
+
+.brand-desc__item_download::before {
+  content: '';
+  position: absolute;
+  left: 0;
+
+  width: 32px;
+  height: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+
   background-image: url('./assets/img/shop/brands/icon_catalog.png');
+  background-repeat: no-repeat;
 }
 
 .brand-desc__link_download:hover,
 .brand-desc__link_download:focus {
   outline: none;
   color: #fff;
+  background-color: #ea5b21;
 }
 
 .brand-desc__link_download::after {
@@ -439,10 +455,10 @@ ul {
   animation: scale-out-center 0.3s linear forwards;
 }
 
-.brand-desc__link_download:hover::after {
-  /* content: 'Скачать каталог'; */
+/* .brand-desc__link_download:hover::after {
   animation: scale-in-center 0.3s linear forwards;
-}
+  z-index: -1;
+} */
 
 @keyframes scale-in-center {
   0% {
@@ -450,14 +466,14 @@ ul {
     opacity: 1;
   }
   100% {
-    transform: scale(250);
+    transform: scale(350);
     opacity: 1;
   }
 }
 
 @keyframes scale-out-center {
   0% {
-    transform: scale(250);
+    transform: scale(350);
     opacity: 1;
   }
   100% {

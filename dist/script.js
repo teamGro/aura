@@ -595,7 +595,7 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
                   <li class="brand-desc__item">
                       <a href="${elem.url}" class="brand-desc__link">${elem.url}</a>
                   </li>
-                  <li class="brand-desc__item">
+                  <li class="brand-desc__item brand-desc__item_download">
                       <a href="${elem.link}" class="brand-desc__link brand-desc__link_download" download>Скачать каталог</a>
                   </li>
               </ul>       
