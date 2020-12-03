@@ -1,87 +1,3 @@
-let sliderData = [
-  {
-    id: 'shop-soft',
-    img: './assets/img/shop/sh1.jpg',
-    title: 'Мягкая мебель',
-    classes: 'shop__item glide__slide',
-  },
-  {
-    id: 'shop-cabinet',
-    img: './assets/img/shop/sh2.jpg',
-    title: 'Корпусная мебель',
-    classes: 'shop__item glide__slide',
-  },
-  {
-    id: 'shop-kitchen',
-    img: './assets/img/shop/sh3.jpg',
-    title: 'Кухни',
-    classes: 'shop__item glide__slide',
-  },
-  {
-    id: 'shop-interior',
-    img: './assets/img/shop/sh4.jpg',
-    title: 'Отделка и интерьер',
-    classes: 'shop__item glide__slide',
-  },
-  {
-    id: 'shop-chair-tables',
-    img: './assets/img/shop/sh5.jpg',
-    title: 'Столы и стулья',
-    classes: 'shop__item glide__slide',
-  },
-  {
-    id: 'shop-for-sleep',
-    img: './assets/img/shop/sh6.jpg',
-    title: 'Товары для сна',
-    classes: 'shop__item glide__slide',
-  },
-  {
-    id: 'shop-for-home',
-    img: './assets/img/shop/sh7.jpg',
-    title: 'Товары для дома',
-    classes: 'shop__item glide__slide',
-  },
-];
-
-let filtersData = [
-  {
-    title: 'ВСЕ',
-    id: 'all',
-    classes: 'filters__item filters__item_active',
-    'data-filter': 'all',
-  },
-  {
-    title: 'Обои',
-    id: 'walls',
-    classes: 'filters__item',
-    'data-filter': '.category-a',
-  },
-  {
-    title: 'Двери',
-    id: 'doors',
-    classes: 'filters__item',
-    'data-filter': '.category-b',
-  },
-  {
-    title: 'Шторы',
-    id: 'curtains',
-    classes: 'filters__item',
-    'data-filter': '.category-c',
-  },
-  {
-    title: 'Сантехника и керамическая плитка',
-    id: 'plumbing',
-    classes: 'filters__item',
-    'data-filter': '.category-d',
-  },
-  {
-    title: 'Сантехника и керамическая плитка',
-    id: 'hardware',
-    classes: 'filters__item',
-    'data-filter': '.category-e',
-  },
-];
-
 let brandsData = [
   {
     category: 'shop-soft',
@@ -537,22 +453,50 @@ let brandDescData = [
   },
 ];
 
-let activeElem;
-createSlider(sliderData, $('.shop__list'));
+const shopsList = $('.shop__list');
+let activeElem = setSliderOpt();
+let firstShopID = activeElem.attr('id');
 
-createFilters(filtersData, $('.filters'));
+new Glide('.glide', {
+  type: 'carousel',
+  startAt: 0,
+  breakpoints: {
+    3000: {
+      perView: 6,
+    },
+    1024: {
+      perView: 5,
+    },
+    800: {
+      perView: 4,
+    },
+    600: {
+      perView: 3,
+      peek: {
+        before: 0,
+        after: 0,
+      },
+    },
+    450: {
+      perView: 2,
+      peek: {
+        before: 0,
+        after: 50,
+      },
+    },
+  },
+}).mount();
 
-createListWithBrands(brandsData, sliderData[0].id, $('.brands'));
+createListWithBrands(brandsData, firstShopID, $('.brands'));
 let brandsList = $('.brands');
-brandsList.attr('data-category', sliderData[0].id);
-let activeCatergory = sliderData[0].id;
+brandsList.attr('data-category', firstShopID);
+let activeCatergory = firstShopID;
 
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
 filters.slideUp();
 let mixer;
 
-const shopsList = $('.shop__list');
 shopsList.on('click', (e) => {
   let target = $(e.target);
 
@@ -591,7 +535,7 @@ shopsList.on('click', (e) => {
       brandsList.removeClass('brands_inactive');
       createListWithBrands(brandsData, targetID, $('.brands'));
       // mixer = mixitup('.filters');
-    }, 300);
+    }, 100);
   } else {
     if (filters.hasClass('filters_active')) {
       filters.removeClass('filters_active');
@@ -607,7 +551,7 @@ shopsList.on('click', (e) => {
       brandsList.removeClass('brands_inactive');
       brandsList.empty();
       createListWithBrands(brandsData, targetID, $('.brands'));
-    }, 700);
+    }, 100);
   }
 });
 
@@ -705,74 +649,12 @@ function createListWithBrands(data, currentID, parent) {
   }, 100);
 }
 
-function createSlider(data, parent) {
-  function createMarkup(elem) {
-    return `
-          <li class="${elem.classes}" id="${elem.id}">
-              <div class="shop__item-wrap">
-                <div class="shop__img-wrap">
-                  <img src="${elem.img}"  alt="" class="shop__img">
-                </div>
-                <h3 class="shop__title">${elem.title}</h3>
-              </div>
-          </li>`;
-  }
-
-  data.forEach((item) => {
-    parent.append(createMarkup(item));
-  });
-
-  activeElem = $('.shop__item').first();
+function setSliderOpt() {
+  let activeElem = $('.shop__item').first();
   activeElem.addClass('shop__item_active');
 
-  new Glide('.glide', {
-    type: 'carousel',
-    startAt: 0,
-    breakpoints: {
-      3000: {
-        perView: 6,
-      },
-      1024: {
-        perView: 5,
-      },
-      800: {
-        perView: 4,
-      },
-      600: {
-        perView: 3,
-        peek: {
-          before: 0,
-          after: 0,
-        },
-      },
-      450: {
-        perView: 2,
-        peek: {
-          before: 0,
-          after: 50,
-        },
-      },
-    },
-  }).mount();
-
   let imgHeight = $('.shop__img').height();
-  let btnNext = $('.shop__btn-wrap').css('top', `${imgHeight / 2}px`);
+  $('.shop__btn-wrap').css('top', `${imgHeight / 2}px`);
 
-  //$('.shop').append(parent);
-}
-
-function createFilters(data, parent) {
-  function createFilterMarkup(elem) {
-    return `
-          <li class="${elem.classes}" id="${elem.id}" data-filter="${elem['data-filter']}">
-              <button class="shop-btn filters__btn">
-                  <span class="filters__desc">${elem.title}</span>
-              </button>
-          </li>
-          `;
-  }
-
-  data.forEach((item) => {
-    parent.append(createFilterMarkup(item));
-  });
+  return activeElem;
 }

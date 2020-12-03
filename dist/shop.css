@@ -251,6 +251,7 @@ ul {
   /* opacity: 1;
   transform: translateX(0);
   transition: transform 0.3s linear; */
+  margin-bottom: 270px;
   animation: slide-in-bck-center 0.7s ease-out forwards;
 }
 
@@ -462,6 +463,10 @@ ul {
   transform-origin: center center;
   background-color: #ea5b21;
   animation: scale-out-center 0.3s linear forwards;
+}
+
+.title-form {
+  margin-top: 270px;
 }
 
 @media (max-width: 1300px) {
