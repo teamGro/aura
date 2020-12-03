@@ -537,7 +537,7 @@ shopsList.on('click', (e) => {
   checkShopAndShowBrands(target.attr('id'));
 });
 
-let ifFirstFilterUsage = true;
+let isFirstFilterUsage = true;
 filters.on('click', (e) => {
   let target = $(e.target);
   target = target.closest('li');
@@ -545,12 +545,11 @@ filters.on('click', (e) => {
   currentActiveFilter = target;
   currentActiveFilter.addClass('filters__item_active');
 
-  if (ifFirstFilterUsage) {
+  if (isFirstFilterUsage) {
     setTimeout(() => {
       target.trigger('click');
       mixer = mixitup('.brands');
-      console.log(1);
-      ifFirstFilterUsage = false;
+      isFirstFilterUsage = false;
     }, 50);
   }
 });
@@ -562,7 +561,6 @@ brandsList.on('click', function (e) {
   createDescForBrand(brandDescData, targetID, $('.brand-desc'), $(this));
 
   $('.brand-desc__btn').on('click', () => {
-    console.log(activeCatergory);
     $('.shop_brands').removeClass('shop_brands-open');
     setTimeout(() => {
       $('.brand-desc').empty();
@@ -667,8 +665,6 @@ function checkShopAndShowBrands(typeID) {
   if (typeID == 'shop-interior') {
     filters.slideDown(100);
     filters.addClass('filters_active');
-    //
-    //mixer = mixitup('.brands');
 
     show();
   } else {
@@ -681,7 +677,7 @@ function checkShopAndShowBrands(typeID) {
     currentActiveFilter.removeClass('filters__item_active');
     currentActiveFilter = $('#all');
     currentActiveFilter.addClass('filters__item_active');
-    ifFirstFilterUsage = true;
+    isFirstFilterUsage = true;
 
     show();
   }
