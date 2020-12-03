@@ -48,37 +48,37 @@ let filtersData = [
     title: 'ВСЕ',
     id: 'all',
     classes: 'filters__item filters__item_active',
-    'data-filter': "all",
+    'data-filter': 'all',
   },
   {
     title: 'Обои',
     id: 'walls',
     classes: 'filters__item',
-    'data-filter': ".category-a",
+    'data-filter': '.category-a',
   },
   {
     title: 'Двери',
     id: 'doors',
     classes: 'filters__item',
-    'data-filter': ".category-b",
+    'data-filter': '.category-b',
   },
   {
     title: 'Шторы',
     id: 'curtains',
     classes: 'filters__item',
-    'data-filter': ".category-c",
+    'data-filter': '.category-c',
   },
   {
     title: 'Сантехника и керамическая плитка',
     id: 'plumbing',
     classes: 'filters__item',
-    'data-filter': ".category-d",
+    'data-filter': '.category-d',
   },
   {
     title: 'Сантехника и керамическая плитка',
     id: 'hardware',
     classes: 'filters__item',
-    'data-filter': ".category-e",
+    'data-filter': '.category-e',
   },
 ];
 
@@ -578,34 +578,36 @@ shopsList.on('click', (e) => {
   }
 
   if (target.attr('id') == 'shop-interior') {
-    filters.slideDown(800);
+    filters.slideDown(100);
     filters.addClass('filters_active');
 
-    brandsList.slideUp(800);
-    brandsList.empty();
     brandsList.attr('data-category', targetID);
+    brandsList.removeClass('brands_active');
+    brandsList.addClass('brands_inactive');
     activeCatergory = targetID;
 
     setTimeout(() => {
-      brandsList.removeClass('brands_active');
+      brandsList.empty();
+      brandsList.removeClass('brands_inactive');
       createListWithBrands(brandsData, targetID, $('.brands'));
-      mixer = mixitup('.filters');
-    }, 800);
+      // mixer = mixitup('.filters');
+    }, 300);
   } else {
     if (filters.hasClass('filters_active')) {
       filters.removeClass('filters_active');
-      filters.slideUp();
+      filters.slideUp(100);
     }
 
-    brandsList.slideUp(800);
-    brandsList.empty();
     brandsList.attr('data-category', targetID);
     activeCatergory = targetID;
+    brandsList.removeClass('brands_active');
+    brandsList.addClass('brands_inactive');
 
     setTimeout(() => {
-      brandsList.removeClass('brands_active');
+      brandsList.removeClass('brands_inactive');
+      brandsList.empty();
       createListWithBrands(brandsData, targetID, $('.brands'));
-    }, 800);
+    }, 700);
   }
 });
 
@@ -698,7 +700,6 @@ function createListWithBrands(data, currentID, parent) {
       parent.append(elem);
     }
   }
-  parent.slideDown(800);
   setTimeout(() => {
     parent.addClass('brands_active');
   }, 100);
@@ -741,15 +742,15 @@ function createSlider(data, parent) {
         perView: 3,
         peek: {
           before: 0,
-          after: 0
-        }
+          after: 0,
+        },
       },
       450: {
         perView: 2,
         peek: {
           before: 0,
-          after: 50
-        }
+          after: 50,
+        },
       },
     },
   }).mount();
