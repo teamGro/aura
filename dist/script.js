@@ -125,6 +125,7 @@ let brandsData = [
     alt: 'Формула дивана',
     id: 'sofa-formula',
     classes: 'mix category-a',
+    order: 1,
   },
   {
     category: 'shop-interior',
@@ -132,6 +133,7 @@ let brandsData = [
     alt: 'bobox',
     id: 'bobox',
     classes: 'mix category-b',
+    order: 2,
   },
   {
     category: 'shop-interior',
@@ -139,6 +141,7 @@ let brandsData = [
     alt: 'Цвет мебели',
     id: 'color-furniture',
     classes: 'mix category-a',
+    order: 1,
   },
   {
     category: 'shop-interior',
@@ -146,6 +149,7 @@ let brandsData = [
     alt: 'Цвет мебели',
     id: 'color-furniture',
     classes: 'mix category-c',
+    order: 3,
   },
   {
     category: 'shop-interior',
@@ -153,6 +157,7 @@ let brandsData = [
     alt: 'Формула дивана',
     id: 'sofa-formula',
     classes: 'mix category-c',
+    order: 3,
   },
   {
     category: 'shop-interior',
@@ -160,6 +165,7 @@ let brandsData = [
     alt: 'egida',
     id: 'egida',
     classes: 'mix category-d',
+    order: 4,
   },
   {
     category: 'shop-interior',
@@ -167,6 +173,7 @@ let brandsData = [
     alt: 'Цвет мебели',
     id: 'color-furniture',
     classes: 'mix category-e',
+    order: 5,
   },
   {
     category: 'shop-interior',
@@ -174,6 +181,7 @@ let brandsData = [
     alt: 'Мебельторг',
     id: 'furniture',
     classes: 'mix category-e',
+    order: 5,
   },
   {
     category: 'shop-interior',
@@ -181,6 +189,7 @@ let brandsData = [
     alt: 'Формула дивана',
     id: 'sofa-formula',
     classes: 'mix category-d',
+    order: 4,
   },
   {
     category: 'shop-interior',
@@ -188,12 +197,15 @@ let brandsData = [
     alt: 'egida',
     id: 'egida',
     classes: 'mix category-c',
+    order: 3,
   },
   {
     category: 'shop-interior',
     img: './assets/img/shop/brands/color-furniture.png',
     alt: 'Цвет мебели',
     id: 'color-furniture',
+    classes: 'mix category-c',
+    order: 3,
   },
   {
     category: 'shop-interior',
@@ -201,6 +213,7 @@ let brandsData = [
     alt: 'Мебельторг',
     id: 'furniture',
     classes: 'mix category-b',
+    order: 1,
   },
   {
     category: 'shop-chair-tables',
@@ -453,6 +466,7 @@ let brandDescData = [
   },
 ];
 
+let mixer;
 const shopsList = $('.shop__list');
 let activeElem = setSliderOpt();
 let firstShopID = activeElem.attr('id');
@@ -495,7 +509,6 @@ let activeCatergory = firstShopID;
 let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
 filters.slideUp();
-let mixer;
 
 shopsList.on('click', (e) => {
   let target = $(e.target);
@@ -524,13 +537,22 @@ shopsList.on('click', (e) => {
   checkShopAndShowBrands(target.attr('id'));
 });
 
+let ifFirstFilterUsage = true;
 filters.on('click', (e) => {
   let target = $(e.target);
   target = target.closest('li');
-  console.log(target);
   currentActiveFilter.removeClass('filters__item_active');
   currentActiveFilter = target;
   currentActiveFilter.addClass('filters__item_active');
+
+  if (ifFirstFilterUsage) {
+    setTimeout(() => {
+      target.trigger('click');
+      mixer = mixitup('.brands');
+      console.log(1);
+      ifFirstFilterUsage = false;
+    }, 50);
+  }
 });
 
 brandsList.on('click', function (e) {
@@ -597,8 +619,9 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
 function createListWithBrands(data, currentID, parent) {
   function createLayout(elem) {
     let cls = elem.classes || '';
+    //let order = elem.order || '';
     return `
-          <li class="brands__item ${cls}" id="${elem.id}" data-type="${elem.category}">
+          <li class="brands__item ${cls}" data-order="${elem.order}" id="${elem.id}" data-type="${elem.category}">
               <div class="brands__item-wrap">
                   <img src="${elem.img}"  alt="${elem.alt}" class="brands__img">
               </div>
@@ -644,13 +667,21 @@ function checkShopAndShowBrands(typeID) {
   if (typeID == 'shop-interior') {
     filters.slideDown(100);
     filters.addClass('filters_active');
+    //
+    //mixer = mixitup('.brands');
 
     show();
   } else {
+    if (mixer) mixer.destroy();
+
     if (filters.hasClass('filters_active')) {
       filters.removeClass('filters_active');
       filters.slideUp(100);
     }
+    currentActiveFilter.removeClass('filters__item_active');
+    currentActiveFilter = $('#all');
+    currentActiveFilter.addClass('filters__item_active');
+    ifFirstFilterUsage = true;
 
     show();
   }
