@@ -160,6 +160,7 @@ ul {
   border-right: 2px solid #ececec;
   margin-bottom: 15px;
   min-height: 27px;
+  transition: color 0.3s linear;
 }
 
 .filters__btn {
@@ -169,6 +170,7 @@ ul {
   line-height: 110%;
   height: 100%;
   color: #cbcbcb;
+  transition: color 0.3s linear;
 }
 
 .filters__btn:focus,
@@ -176,7 +178,8 @@ ul {
   outline: none;
 }
 
-.filters__btn:hover {
+.filters__item:hover,
+.filters__item:hover > .filters__btn {
   cursor: pointer;
   color: #ea5b21;
 }
