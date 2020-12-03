@@ -524,7 +524,7 @@ shopsList.on('click', (e) => {
     target = target.closest('li');
   }
 
-  activeElem.removeClass('shop__item_active');
+  shopsList.find('.shop__item_active').removeClass('shop__item_active');
   target.addClass('shop__item_active');
   activeElem = target;
 
