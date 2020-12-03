@@ -468,8 +468,9 @@ let brandDescData = [
 
 let mixer;
 const shopsList = $('.shop__list');
-let activeElem = setSliderOpt();
+let activeElem = setActiveElem();
 let firstShopID = activeElem.attr('id');
+setBtnPos();
 
 new Glide('.glide', {
   type: 'carousel',
@@ -501,8 +502,8 @@ new Glide('.glide', {
   },
 }).mount();
 
-createListWithBrands(brandsData, firstShopID, $('.brands'));
 let brandsList = $('.brands');
+createListWithBrands(brandsData, firstShopID, brandsList);
 brandsList.attr('data-category', firstShopID);
 let activeCatergory = firstShopID;
 
@@ -541,6 +542,7 @@ let isFirstFilterUsage = true;
 filters.on('click', (e) => {
   let target = $(e.target);
   target = target.closest('li');
+
   currentActiveFilter.removeClass('filters__item_active');
   currentActiveFilter = target;
   currentActiveFilter.addClass('filters__item_active');
@@ -557,6 +559,7 @@ filters.on('click', (e) => {
 brandsList.on('click', function (e) {
   let target = $(e.target);
   target = target.closest('li');
+
   let targetID = target.attr('id');
   createDescForBrand(brandDescData, targetID, $('.brand-desc'), $(this));
 
@@ -638,14 +641,16 @@ function createListWithBrands(data, currentID, parent) {
   }, 300);
 }
 
-function setSliderOpt() {
+function setActiveElem() {
   let activeElem = $('.shop__item').first();
   activeElem.addClass('shop__item_active');
 
+  return activeElem;
+}
+
+function setBtnPos() {
   let imgHeight = $('.shop__img').height();
   $('.shop__btn-wrap').css('top', `${imgHeight / 2}px`);
-
-  return activeElem;
 }
 
 function checkShopAndShowBrands(typeID) {
@@ -658,7 +663,7 @@ function checkShopAndShowBrands(typeID) {
       brandsList.empty();
       brandsList.removeClass('brands_active');
       brandsList.removeClass('brands_inactive');
-      createListWithBrands(brandsData, typeID, $('.brands'));
+      createListWithBrands(brandsData, typeID, brandsList);
     }, 300);
   }
   if (typeID == 'shop-interior') {
@@ -666,18 +671,19 @@ function checkShopAndShowBrands(typeID) {
     filters.addClass('filters_active');
 
     show();
-  } else {
-    if (mixer) mixer.destroy();
-
-    if (filters.hasClass('filters_active')) {
-      filters.removeClass('filters_active');
-      filters.slideUp(100);
-    }
-    currentActiveFilter.removeClass('filters__item_active');
-    currentActiveFilter = $('#all');
-    currentActiveFilter.addClass('filters__item_active');
-    isFirstFilterUsage = true;
-
-    show();
+    return;
   }
+
+  if (mixer) mixer.destroy();
+
+  if (filters.hasClass('filters_active')) {
+    filters.removeClass('filters_active');
+    filters.slideUp(100);
+  }
+  currentActiveFilter.removeClass('filters__item_active');
+  currentActiveFilter = $('#all');
+  currentActiveFilter.addClass('filters__item_active');
+  isFirstFilterUsage = true;
+
+  show();
 }
