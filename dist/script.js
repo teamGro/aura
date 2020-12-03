@@ -617,7 +617,6 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
 function createListWithBrands(data, currentID, parent) {
   function createLayout(elem) {
     let cls = elem.classes || '';
-    //let order = elem.order || '';
     return `
           <li class="brands__item ${cls}" data-order="${elem.order}" id="${elem.id}" data-type="${elem.category}">
               <div class="brands__item-wrap">
@@ -636,7 +635,7 @@ function createListWithBrands(data, currentID, parent) {
   }
   setTimeout(() => {
     parent.addClass('brands_active');
-  }, 200);
+  }, 300);
 }
 
 function setSliderOpt() {
@@ -660,7 +659,7 @@ function checkShopAndShowBrands(typeID) {
       brandsList.removeClass('brands_active');
       brandsList.removeClass('brands_inactive');
       createListWithBrands(brandsData, typeID, $('.brands'));
-    }, 200);
+    }, 300);
   }
   if (typeID == 'shop-interior') {
     filters.slideDown(100);
