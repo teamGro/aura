@@ -521,38 +521,7 @@ shopsList.on('click', (e) => {
     }, 300);
   }
 
-  if (target.attr('id') == 'shop-interior') {
-    filters.slideDown(100);
-    filters.addClass('filters_active');
-
-    brandsList.attr('data-category', targetID);
-    brandsList.removeClass('brands_active');
-    brandsList.addClass('brands_inactive');
-    activeCatergory = targetID;
-
-    setTimeout(() => {
-      brandsList.empty();
-      brandsList.removeClass('brands_inactive');
-      createListWithBrands(brandsData, targetID, $('.brands'));
-      // mixer = mixitup('.filters');
-    }, 100);
-  } else {
-    if (filters.hasClass('filters_active')) {
-      filters.removeClass('filters_active');
-      filters.slideUp(100);
-    }
-
-    brandsList.attr('data-category', targetID);
-    activeCatergory = targetID;
-    brandsList.removeClass('brands_active');
-    brandsList.addClass('brands_inactive');
-
-    setTimeout(() => {
-      brandsList.removeClass('brands_inactive');
-      brandsList.empty();
-      createListWithBrands(brandsData, targetID, $('.brands'));
-    }, 100);
-  }
+  checkShopAndShowBrands(target.attr('id'));
 });
 
 filters.on('click', (e) => {
@@ -646,7 +615,7 @@ function createListWithBrands(data, currentID, parent) {
   }
   setTimeout(() => {
     parent.addClass('brands_active');
-  }, 100);
+  }, 200);
 }
 
 function setSliderOpt() {
@@ -657,4 +626,32 @@ function setSliderOpt() {
   $('.shop__btn-wrap').css('top', `${imgHeight / 2}px`);
 
   return activeElem;
+}
+
+function checkShopAndShowBrands(typeID) {
+  function show() {
+    brandsList.attr('data-category', typeID);
+    brandsList.addClass('brands_inactive');
+    activeCatergory = typeID;
+
+    setTimeout(() => {
+      brandsList.empty();
+      brandsList.removeClass('brands_active');
+      brandsList.removeClass('brands_inactive');
+      createListWithBrands(brandsData, typeID, $('.brands'));
+    }, 200);
+  }
+  if (typeID == 'shop-interior') {
+    filters.slideDown(100);
+    filters.addClass('filters_active');
+
+    show();
+  } else {
+    if (filters.hasClass('filters_active')) {
+      filters.removeClass('filters_active');
+      filters.slideUp(100);
+    }
+
+    show();
+  }
 }
