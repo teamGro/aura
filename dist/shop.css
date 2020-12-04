@@ -252,7 +252,6 @@ ul {
 }
 
 .brands_active {
-  margin-bottom: 270px;
   animation: slide-in-bck-center 0.7s ease-out forwards;
 }
 
@@ -555,6 +554,10 @@ ul {
   .brands__item {
     padding: 10px 5px;
     min-height: 110px;
+  }
+
+  .title-form {
+    margin-top: 70px;
   }
 }
 
