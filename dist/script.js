@@ -530,16 +530,10 @@ shopsList.on('click', (e) => {
 
   let targetID = target.attr('id');
   if (brandsList.attr('data-category') == targetID) {
-    console.log(target.attr('id'));
     return;
   }
 
-  if ($('.shop_brands').hasClass('shop_brands-open')) {
-    $('.shop_brands').removeClass('shop_brands-open');
-    setTimeout(() => {
-      $('.brand-desc').empty();
-    }, 300);
-  }
+  isDescForShopOpen($('.shop_brands'), 'shop_brands-open', $('.brand-desc'));
 
   checkShopAndShowBrands(target.attr('id'));
 });
@@ -548,6 +542,8 @@ let isFirstFilterUsage = true;
 filters.on('click', (e) => {
   let target = $(e.target);
   target = target.closest('li');
+
+  isDescForShopOpen($('.shop_brands'), 'shop_brands-open', $('.brand-desc'));
 
   currentActiveFilter.removeClass('filters__item_active');
   currentActiveFilter = target;
@@ -573,7 +569,7 @@ brandsList.on('click', function (e) {
     $('.shop_brands').removeClass('shop_brands-open');
     setTimeout(() => {
       $('.brand-desc').empty();
-    }, 800);
+    }, 300);
   });
 });
 
@@ -617,6 +613,11 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
     let item = data[i];
     if (item.title == currentID) {
       nodeForRemoving.parent().addClass('shop_brands-open');
+
+      if (parent.children().length != 0) {
+        parent.empty();
+      }
+
       parent.append(createLayout(item));
       parent.attr('data-category', currentID);
     }
@@ -692,4 +693,13 @@ function checkShopAndShowBrands(typeID) {
   isFirstFilterUsage = true;
 
   show();
+}
+
+function isDescForShopOpen(shop, shopOpenCls, descContainer) {
+  if (shop.hasClass(shopOpenCls)) {
+    shop.removeClass(shopOpenCls);
+    setTimeout(() => {
+      descContainer.empty();
+    }, 300);
+  }
 }
