@@ -262,14 +262,13 @@ ul {
 .brands__item {
   width: calc(100% / 4 - 31.5px);
   border: 1px solid #ececec;
-  margin-bottom: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 5px;
   min-height: 230px;
   transition: box-shadow 0.3s linear;
-  margin: 0 9px 35px;
+  margin: 0 9px 18px;
 }
 
 .brands__item:hover {
