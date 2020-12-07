@@ -377,7 +377,7 @@ ul {
   display: block;
 }
 
-.brand-desc__link::before {
+.brand-desc__item .brand-desc__link::before {
   content: '';
   position: absolute;
   left: -55px;
@@ -387,11 +387,14 @@ ul {
   top: 50%;
   transform: translateY(-50%);
 
-  background-image: url('./assets/img/shop/brands/icon_phone.png');
   background-repeat: no-repeat;
 }
 
-.brand-desc__item:nth-child(2) .brand-desc__link::before {
+.brand-desc__item_phone .brand-desc__link::before {
+  background-image: url('./assets/img/shop/brands/icon_phone.png');
+}
+
+.brand-desc__item_web .brand-desc__link::before {
   background-image: url('./assets/img/shop/brands/icon_web.png');
 }
 

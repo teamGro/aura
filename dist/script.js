@@ -335,8 +335,8 @@ let brandDescData = [
     desc: 'Много мебели — сеть мебельных магазинов по всей России, специализарующаяся на продаже и изготовлении диванов, корпусной мебели и др.',
     phone: '8 (927) 510-45-55',
     phoneLink: '+79275104555',
-    url: 'https://mnogomebeli.com/',
-    link: '#',
+    // url: 'https://mnogomebeli.com/',
+    // link: '#',
   },
   {
     title: 'ormatek',
@@ -348,7 +348,7 @@ let brandDescData = [
     phone: '8 (927) 510-45-55',
     phoneLink: '+79275104555',
     url: 'https://ormatek.com/',
-    link: '#',
+    // link: '#',
   },
   {
     title: 'askona',
@@ -357,7 +357,7 @@ let brandDescData = [
     img: './assets/img/shop/brands/sofa.jpg',
     alt: 'Askona',
     desc: 'Askona — сеть мебельных магазинов по всей России, специализарующаяся на продаже и изготовлении диванов, корпусной мебели и др.',
-    phone: '8 (927) 510-45-55',
+    // phone: '8 (927) 510-45-55',
     phoneLink: '+79275104555',
     url: 'https://askona.com/',
     link: '#',
@@ -517,7 +517,7 @@ let filters = $('.filters');
 let currentActiveFilter = $('.filters__item_active');
 filters.slideUp();
 
-shopsList.on('click', (e) => {
+shopsList.on('mousedown', (e) => {
   let target = $(e.target);
 
   if (target.prop('tagName') != 'LI') {
@@ -574,7 +574,35 @@ brandsList.on('click', function (e) {
 });
 
 function createDescForBrand(data, currentID, parent, nodeForRemoving) {
+  function isNodeExist(elem, node) {
+    if (elem) {
+      return node;
+    }
+    return '';
+  }
+
   function createLayout(elem) {
+    let phoneNode = isNodeExist(
+      elem.phone,
+      `
+    <li class="brand-desc__item brand-desc__item_phone">
+      <a href="tel:${elem.phoneLink}" class="brand-desc__link" target="_blank">${elem.phone}</a>
+    </li>`
+    );
+
+    let webNode = isNodeExist(
+      elem.url,
+      `<li class="brand-desc__item brand-desc__item_web">
+        <a href="${elem.url}" class="brand-desc__link" target="_blank">${elem.url}</a>
+       </li>`
+    );
+
+    let downloadNode = isNodeExist(
+      elem.link,
+      `<li class="brand-desc__item brand-desc__item_download">
+          <a href="${elem.link}" class="brand-desc__link brand-desc__link_download" download>Скачать каталог</a>
+      </li>`
+    );
     return `
           <button class="brand-desc__btn" type="button">
               <span class="brand-desc__btn-arrow"></span>
@@ -595,15 +623,9 @@ function createDescForBrand(data, currentID, parent, nodeForRemoving) {
                </div>
   
                <ul class="brand-desc__list">
-                  <li class="brand-desc__item">
-                      <a href="tel:${elem.phoneLink}" class="brand-desc__link">${elem.phone}</a>
-                  </li>
-                  <li class="brand-desc__item">
-                      <a href="${elem.url}" class="brand-desc__link">${elem.url}</a>
-                  </li>
-                  <li class="brand-desc__item brand-desc__item_download">
-                      <a href="${elem.link}" class="brand-desc__link brand-desc__link_download" download>Скачать каталог</a>
-                  </li>
+                  ${phoneNode}
+                  ${webNode}
+                  ${downloadNode}                  
               </ul>       
           </div>
           `;
